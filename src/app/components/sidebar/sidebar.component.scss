@@ -1,0 +1,17 @@
+:host {
+	position: absolute;
+	height: 100%;
+	width: 200px;
+	padding: 20px;
+	-webkit-box-shadow: 2px 0px 25px -9px rgba(0,0,0,0.75);
+	-moz-box-shadow: 2px 0px 25px -9px rgba(0,0,0,0.75);
+	box-shadow: 2px 0px 25px -9px rgba(0,0,0,0.75);
+}
+
+#newPlaylistBtn {
+	cursor: pointer;
+}
+
+#fileInput {
+	display: none;
+}

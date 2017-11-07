@@ -1,0 +1,3 @@
+<ul>
+  <li (dblclick)="playSong(song.path)" *ngFor="let song of playlists | async">{{ song.name }}</li>
+</ul>
