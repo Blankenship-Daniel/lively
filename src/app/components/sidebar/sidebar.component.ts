@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ADD } from '../../../reducers/playlists';
+import { ADD_PLAYLIST } from '../../../reducers/playlists';
 import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Rx';
 
@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
 
   createPlaylist(playlistName) {
     if (playlistName !== '') {
-      this.store.dispatch({ type: ADD, payload: {
+      this.store.dispatch({ type: ADD_PLAYLIST, payload: {
           uuid: UUID.UUID(),
           title: playlistName
         }

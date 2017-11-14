@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
+import { ADD_SONG } from '../../../reducers/songs';
+
 import * as id3Parser from 'id3-parser';
 @Component({
   selector: 'app-playlist',
@@ -9,31 +11,36 @@ import * as id3Parser from 'id3-parser';
 })
 export class PlaylistComponent implements OnInit {
 
-  private title: string;
-  private playlists: Observable<any>;
+  private songs: Observable<any>;
   private song: any;
 
   constructor(private store: Store<any>) {
-    this.title = 'New Playlist';
-    this.playlists = store.select('playlists');
+    this.songs = store.select('songs');
+    this.songs.subscribe(s => console.log('songs', s));
     this.song = new Audio();
   }
 
   ngOnInit() {}
 
   playSong(path: string) {
+    console.log('playSong(', path, ')');
     this.song.src = path;
     this.song.play();
   }
 
   onFileChange(event) {
     let files: FileList = event.target.files;
-    let tracks: Array<any> = [];
+    let songsPromiseArray: Array<any> = [];
+
     Array.from(files).forEach((file: File) => {
-      id3Parser.parse(file).then(tag => { // grab metadata from mp3 file
-        tracks.push(tag);
-      });
+      songsPromiseArray.push(id3Parser.parse(file).then((tag: any) => {
+        tag.path = file.path;
+        return tag;
+      }));
     });
-    console.log('tracks', tracks);
+
+    Promise.all(songsPromiseArray).then(songs => {
+      this.store.dispatch({ type: ADD_SONG, payload: songs });
+    });
   }
 }

@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
-export const ADD = 'ADD';
+export const ADD_PLAYLIST = 'ADD_PLAYLIST';
 
 export function playlistsReducer(state = {}, action) {
 	switch (action.type) {
-		case ADD:
+		case ADD_PLAYLIST:
 			const uuid = action.payload.uuid;
 			const title = action.payload.title;
 
