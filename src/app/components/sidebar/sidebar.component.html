@@ -1,9 +1,16 @@
 <h1>Lively</h1>
-<hr>
 <ul>
-	<li>New Playlist
-		<i (click)="fileInput.click()" id="newPlaylistBtn" class="color-green-500 fa fa-plus">
-			<input (change)="onFileChange($event)" #fileInput id="fileInput" type="file" multiple>
-		</i>
+	<li>
+		<span *ngIf="!create">
+			New Playlist
+			<i (click)="create = true" id="newPlaylistBtn" class="color-green-500 fa fa-plus"></i>
+		</span>
+		<span *ngIf="create">
+			<input (keyup)="onKey(createPlaylistInput.value, $event)" #createPlaylistInput autofocus type="text" placeholder="New Playlist">
+			<i (click)="createPlaylist(createPlaylistInput.value)" class="color-green-500 fa fa-plus"></i>
+		</span>
+	</li>
+	<li class="playlist-name" *ngFor="let playlist of playlists | async | keys">
+		{{ playlist.value.title }}
 	</li>
 </ul>

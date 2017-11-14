@@ -13,13 +13,16 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { ElectronService } from './providers/electron.service';
 import { playlistsReducer } from '../reducers/playlists';
+import { songsReducer } from '../reducers/songs';
+import { KeysPipe } from './keys.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     SidebarComponent,
-    PlaylistComponent
+    PlaylistComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { playlistsReducer } from '../reducers/playlists';
     HttpModule,
     AppRoutingModule,
     StoreModule.forRoot({
-      playlists: playlistsReducer
+      playlists: playlistsReducer,
+      songs: songsReducer
     })
   ],
   providers: [ElectronService],

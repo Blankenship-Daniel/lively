@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ADD } from '../../../reducers/playlists';
+import { UUID } from 'angular2-uuid';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,21 +11,33 @@ import { ADD } from '../../../reducers/playlists';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private store: Store<any>) {}
+  private create: boolean;
+  private playlists: Observable<any>;
+
+  constructor(private store: Store<any>) {
+    this.create = false;
+    this.playlists = store.select('playlists');
+
+    this.playlists.subscribe(s => console.log(s));
+  }
 
   ngOnInit() {
   }
 
-  onFileChange(event: any) {
-    let files = event.target.files;
-    let playlist = Array.from(files).map(obj => {
-      return {
-        name: obj['name'],
-        path: obj['path'],
-        size: obj['size']
-      }
-    });
-    console.log(playlist);
-    this.store.dispatch({ type: ADD, payload: playlist });
+  onKey(playlistName, event) {
+    if (event.key === 'Enter') {
+      this.createPlaylist(playlistName);
+    }
+  }
+
+  createPlaylist(playlistName) {
+    if (playlistName !== '') {
+      this.store.dispatch({ type: ADD, payload: {
+          uuid: UUID.UUID(),
+          title: playlistName
+        }
+      });
+      this.create = false;
+    }
   }
 }

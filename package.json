@@ -46,8 +46,10 @@
     "@angular/router": "4.4.3",
     "@ngrx/core": "^1.2.0",
     "@ngrx/store": "^4.1.0",
+    "angular2-uuid": "^1.1.1",
     "core-js": "2.4.1",
     "enhanced-resolve": "3.3.0",
+    "id3-parser": "^1.5.1",
     "material-colors": "^1.2.5",
     "rxjs": "5.4.3",
     "zone.js": "0.8.17"

@@ -4,3 +4,20 @@
 	padding: 20px;
 }
 
+.song {
+	cursor: default;
+	padding: 5px;
+}
+
+ul {
+	margin-top: 40px;
+}
+
+.active {
+	background: blue;
+}
+
+tr:nth-child(even) {
+	background-color: #ECEFF1;
+}
+
