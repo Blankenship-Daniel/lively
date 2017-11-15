@@ -1,0 +1,33 @@
+:host {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 100px;
+	width: 100%;
+	opacity: .8;
+}
+
+.controls-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 500px;
+	height: 100%;
+}
+
+.controls {
+	user-select: none;
+
+	.next, .back, .play, .pause {
+		font-size: 2em;
+		padding: 0px 20px;
+		cursor: pointer;
+
+		&:hover {
+			font-weight: bold;
+		}
+	}
+}

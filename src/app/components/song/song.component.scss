@@ -1,0 +1,32 @@
+:host {
+	font-size: 14px;
+	display: block;
+	user-select: none;
+	cursor: default;
+
+	&:nth-child(even) {
+		background: #ECEFF1;
+	}
+}
+
+.active {
+	background: #90CAF9;
+}
+
+.song {
+	padding: 10px;
+	min-width: 1000px;
+	height: 15px;
+
+	div {
+		float: left;
+		width: 25%;
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+
+		&:last-child {
+			text-align: right;
+		}
+	}
+}

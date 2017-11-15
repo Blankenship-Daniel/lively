@@ -1,0 +1,7 @@
+<div [ngClass]="{'active': active}" class="song" (click)="active = !active" (dblclick)="playSong(song.path)">
+  <div>{{ song.title }}</div>
+  <div>{{ song.artist }}</div>
+  <div>{{ song.album }}</div>
+  <div>{{ song.genre }}</div>
+</div>
+<div style="clear: both"></div>

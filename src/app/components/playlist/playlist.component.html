@@ -1,9 +1,0 @@
-<h1>Library <input (change)="onFileChange($event)" type="file" multiple></h1>
-<table>
-  <tr class="song" (click)="playSong(song.path)" *ngFor="let song of songs | async">
-    <td>{{ song.title }}</td>
-    <td>{{ song.artist }}</td>
-    <td>{{ song.album }}</td>
-    <td>{{ song.genre }}</td>
-  </tr>
-</table>

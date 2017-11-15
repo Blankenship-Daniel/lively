@@ -1,9 +1,10 @@
 :host {
-	position: absolute;
+	position: fixed;
+	top: 0;
+	left: 0;
 	height: 100%;
 	width: 200px;
-	padding: 20px;;
-	box-shadow: -28px 5px 10px 30px rgba(189,189,189,1);
+	padding: 20px;
 }
 
 li {

@@ -1,0 +1,12 @@
+<div class="controls-box">
+  <div class="controls color-grey-800">
+      <span class="back"><i class="fa fa-step-backward"></i></span>
+      <span [hidden]="isPlaying" class="play">
+        <i (click)="playSong()" class="fa fa-play"></i>
+      </span>
+      <span [hidden]="!isPlaying" class="pause">
+        <i (click)="pauseSong()" class="fa fa-pause"></i>
+      </span>
+      <span class="next"><i class="fa fa-step-forward"></i></span>
+  </div>
+</div>

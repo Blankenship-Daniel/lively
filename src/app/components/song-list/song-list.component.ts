@@ -5,28 +5,19 @@ import { ADD_SONG } from '../../../reducers/songs';
 
 import * as id3Parser from 'id3-parser';
 @Component({
-  selector: 'app-playlist',
-  templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.scss']
+  selector: 'app-song-list',
+  templateUrl: './song-list.component.html',
+  styleUrls: ['./song-list.component.scss']
 })
-export class PlaylistComponent implements OnInit {
+export class SongListComponent implements OnInit {
 
   private songs: Observable<any>;
-  private song: any;
 
   constructor(private store: Store<any>) {
     this.songs = store.select('songs');
-    this.songs.subscribe(s => console.log('songs', s));
-    this.song = new Audio();
   }
 
   ngOnInit() {}
-
-  playSong(path: string) {
-    console.log('playSong(', path, ')');
-    this.song.src = path;
-    this.song.play();
-  }
 
   onFileChange(event) {
     let files: FileList = event.target.files;

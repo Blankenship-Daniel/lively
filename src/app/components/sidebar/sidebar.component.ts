@@ -17,8 +17,6 @@ export class SidebarComponent implements OnInit {
   constructor(private store: Store<any>) {
     this.create = false;
     this.playlists = store.select('playlists');
-
-    this.playlists.subscribe(s => console.log(s));
   }
 
   ngOnInit() {

@@ -1,0 +1,2 @@
+<input (change)="onFileChange($event)" type="file" multiple>
+<app-song class="color-grey-800" *ngFor="let song of songs | async" [song]="song"></app-song>
