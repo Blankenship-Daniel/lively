@@ -1,16 +1,16 @@
 :host {
-	font-size: 14px;
+	font-size: 13px;
 	display: block;
 	user-select: none;
 	cursor: default;
 
 	&:nth-child(even) {
-		background: #ECEFF1;
+		background: #EEE;
 	}
 }
 
 .active {
-	background: #90CAF9;
+	background: #E1BEE7;
 }
 
 .song {

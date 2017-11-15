@@ -12,6 +12,8 @@ export class PlayerControlsComponent implements OnInit {
   private isPlaying: boolean;
   private playPromises: Array<any>;
   private path: Observable<any>;
+  private selection: Observable<any>;
+  private selectionDisplay: string;
   private songPath: string;
   private audio;
 
@@ -22,50 +24,58 @@ export class PlayerControlsComponent implements OnInit {
     this.playPromises = [];
     this.audio = new Audio();
     this.path = store.select('player');
+    this.selection = store.select('selection');
+    this.selectionDisplay = '';
     this.playSong();
   }
 
   ngOnInit() {
+    this.selection.subscribe(songs => {
+      this.selectionDisplay = '';
+      songs.forEach(song => {
+        this.selectionDisplay += song.title + ' > ';
+      });
+    });
   }
 
   pauseSong() {
-    console.log('pauseSong(', this.songPath, ')');
-
-
+    this.isPlaying = false;
     if (this.playPromises.length) {
       Promise.all(this.playPromises).then(_ => {
-        this.isPlaying = false;
         this.audio.pause();
       })
       .catch(error => {
-        this.isPlaying = true;
+        console.error(error);
       });
     }
   }
 
-  play() {
+  newSong() {
     this.isPlaying = true;
     this.audio.src = this.songPath;
     this.playPromises.push(this.audio.play());
+  }
+
+  play() {
+    this.isPlaying = true;
+    this.audio.play();
   }
 
   playSong() {
     this.path.subscribe(path => {
       this.songPath = path;
 
-      console.log('playSong(', this.songPath, ')');
-
       if (path !== '') {
         if (this.playPromises.length) {
           Promise.all(this.playPromises).then(_ => {
-            this.play();
+            this.newSong();
           })
           .catch(error => {
             console.error(error);
           });
         }
         else {
-          this.play();
+          this.newSong();
         }
       }
     });

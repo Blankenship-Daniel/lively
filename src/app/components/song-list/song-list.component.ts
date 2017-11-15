@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
-import { ADD_SONG } from '../../../reducers/songs';
+import { ADD_SONG } from '../../reducers/songs';
 
 import * as id3Parser from 'id3-parser';
 @Component({

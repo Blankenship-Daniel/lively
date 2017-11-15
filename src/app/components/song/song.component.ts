@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { PLAY_SONG } from '../../../reducers/player';
+import { PLAY_SONG } from '../../reducers/player';
+import { SELECT_SONG } from '../../reducers/selection';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-song',
@@ -18,6 +20,12 @@ export class SongComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.song.id = UUID.UUID();
+  }
+
+  selectSong(song) {
+    this.active = !this.active;
+    this.store.dispatch({ type: SELECT_SONG, payload: song });
   }
 
   playSong(path: string) {

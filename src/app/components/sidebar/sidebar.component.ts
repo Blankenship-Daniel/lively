@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ADD_PLAYLIST } from '../../../reducers/playlists';
+import { ADD_PLAYLIST } from '../../reducers/playlists';
 import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Rx';
 

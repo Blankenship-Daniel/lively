@@ -12,9 +12,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { ElectronService } from './providers/electron.service';
 import { KeysPipe } from './keys.pipe';
 
-import { playerReducer } from '../reducers/player';
-import { playlistsReducer } from '../reducers/playlists';
-import { songsReducer } from '../reducers/songs';
+import { playerReducer } from './reducers/player';
+import { playlistsReducer } from './reducers/playlists';
+import { selectionReducer } from './reducers/selection';
+import { songsReducer } from './reducers/songs';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -41,6 +42,7 @@ import { PlayerControlsComponent } from './components/player-controls/player-con
     StoreModule.forRoot({
       player: playerReducer,
       playlists: playlistsReducer,
+      selection: selectionReducer,
       songs: songsReducer
     })
   ],
