@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { PLAY_SONG } from '../../reducers/player';
 import { SELECT_SONG } from '../../reducers/selection';
+import { PLAY_SONG } from '../../reducers/player';
 import { UUID } from 'angular2-uuid';
 
 @Component({
@@ -28,7 +28,7 @@ export class SongComponent implements OnInit {
     this.store.dispatch({ type: SELECT_SONG, payload: song });
   }
 
-  playSong(path: string) {
-    this.store.dispatch({ type: PLAY_SONG, payload: path });
+  playSong(song) {
+    this.store.dispatch({ type: PLAY_SONG, payload: song });
   }
 }

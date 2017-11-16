@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 
 import { ElectronService } from './providers/electron.service';
+import { SongsService } from './songs.service';
 import { KeysPipe } from './keys.pipe';
 
 import { playerReducer } from './reducers/player';
@@ -46,7 +47,10 @@ import { PlayerControlsComponent } from './components/player-controls/player-con
       songs: songsReducer
     })
   ],
-  providers: [ElectronService],
+  providers: [
+    ElectronService,
+    SongsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

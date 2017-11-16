@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
-import { ADD_SONG } from '../../reducers/songs';
+import { ADD_SONGS } from '../../reducers/songs';
 
 import * as id3Parser from 'id3-parser';
 @Component({
@@ -17,7 +17,8 @@ export class SongListComponent implements OnInit {
     this.songs = store.select('songs');
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onFileChange(event) {
     let files: FileList = event.target.files;
@@ -31,7 +32,7 @@ export class SongListComponent implements OnInit {
     });
 
     Promise.all(songsPromiseArray).then(songs => {
-      this.store.dispatch({ type: ADD_SONG, payload: songs });
+      this.store.dispatch({ type: ADD_SONGS, payload: songs });
     });
   }
 }

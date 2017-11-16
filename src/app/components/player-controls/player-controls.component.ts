@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
+import { SongsService } from '../../songs.service';
 
 @Component({
   selector: 'app-player-controls',
@@ -9,75 +10,45 @@ import { Store } from '@ngrx/store';
 })
 export class PlayerControlsComponent implements OnInit {
 
-  private isPlaying: boolean;
-  private playPromises: Array<any>;
-  private path: Observable<any>;
-  private selection: Observable<any>;
+  @ViewChild('player') player: ElementRef;
+
   private selectionDisplay: string;
-  private songPath: string;
-  private audio;
+  private path: string;
+
+  private selection: Observable<any>;
+  private songs: Observable<any>;
+  private song: Observable<any>;
+
+  private currSong;
 
   constructor(
     private store: Store<any>,
+    private songsService: SongsService
   ) {
-    this.isPlaying = false;
-    this.playPromises = [];
-    this.audio = new Audio();
-    this.path = store.select('player');
+    this.song = store.select('player');
+    this.songs = store.select('songs');
     this.selection = store.select('selection');
     this.selectionDisplay = '';
-    this.playSong();
+  }
+
+  ngAfterViewInit() {
+    this.song.subscribe(song => this.playSong(song));
+    this.player.nativeElement.addEventListener('ended', _ => this.playSong(this.songsService.getNextSong(this.currSong)));
   }
 
   ngOnInit() {
     this.selection.subscribe(songs => {
       this.selectionDisplay = '';
-      songs.forEach(song => {
-        this.selectionDisplay += song.title + ' > ';
-      });
+      songs.forEach(song => this.selectionDisplay += song.title + ' > ');
     });
+    this.songs.subscribe(songs => this.songsService.setSongs(songs));
   }
 
-  pauseSong() {
-    this.isPlaying = false;
-    if (this.playPromises.length) {
-      Promise.all(this.playPromises).then(_ => {
-        this.audio.pause();
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  playSong(song) {
+    this.currSong = song;
+    if (song.path !== '') {
+      this.player.nativeElement.src = song.path;
+      this.player.nativeElement.play();
     }
-  }
-
-  newSong() {
-    this.isPlaying = true;
-    this.audio.src = this.songPath;
-    this.playPromises.push(this.audio.play());
-  }
-
-  play() {
-    this.isPlaying = true;
-    this.audio.play();
-  }
-
-  playSong() {
-    this.path.subscribe(path => {
-      this.songPath = path;
-
-      if (path !== '') {
-        if (this.playPromises.length) {
-          Promise.all(this.playPromises).then(_ => {
-            this.newSong();
-          })
-          .catch(error => {
-            console.error(error);
-          });
-        }
-        else {
-          this.newSong();
-        }
-      }
-    });
   }
 }

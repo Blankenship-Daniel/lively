@@ -1,16 +1,7 @@
 <div [hidden]="selectionDisplay === ''" class="selection color-purple-700 bg-grey-100">{{ selectionDisplay }}</div>
 <div class="main bg-purple-800">
   <div class="controls-box">
-      <div class="controls color-green-a200">
-          <span class="back"><i class="fa fa-step-backward"></i></span>
-          <span [hidden]="isPlaying" class="play">
-            <i (click)="play()" class="fa fa-play"></i>
-          </span>
-          <span [hidden]="!isPlaying" class="pause">
-            <i (click)="pauseSong()" class="fa fa-pause"></i>
-          </span>
-          <span class="next"><i class="fa fa-step-forward"></i></span>
-      </div>
-    </div>
+    <audio #player controls></audio>
+  </div>
 </div>
 

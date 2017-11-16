@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
-export const ADD_SONG = 'ADD_SONG';
+export const ADD_SONGS = 'ADD_SONGS';
 
 export function songsReducer(state = [], action) {
 	switch (action.type) {
-		case ADD_SONG:
+		case ADD_SONGS:
 			return [...state, ...action.payload];
 		default:
 			return state;
