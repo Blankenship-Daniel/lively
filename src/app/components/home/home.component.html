@@ -1,7 +1,8 @@
 <div class="container color-grey-900">
   <app-sidebar class="bg-grey-50"></app-sidebar>
   <div class="main">
-    <app-song-list class="color-grey-800"></app-song-list>
+    <app-library-view [hidden]="!hideView"></app-library-view>
+    <app-playlist-view [id]="playlistId" [hidden]="hideView"></app-playlist-view>
   </div>
   <app-player-controls class="bg-purple-800"></app-player-controls>
 </div>

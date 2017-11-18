@@ -1,0 +1,5 @@
+<div>
+  <span (click)="loadPlaylist()">{{ playlist.value.title }}</span>
+  <br>
+  <button (click)="addSongsToPlaylist(selectedSongsArr)" [hidden]="!songsAreSelected">Add Selected Songs</button>
+</div>

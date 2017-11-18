@@ -1,3 +1,5 @@
+<h1 (click)="loadLibrary()">Lively</h1>
+
 <ul>
 	<li>
 		<span *ngIf="!create">
@@ -10,6 +12,6 @@
 		</span>
 	</li>
 	<li class="playlist-name" *ngFor="let playlist of playlists | async | keys">
-		{{ playlist.value.title }}
+		<app-playlist-link [playlist]="playlist"></app-playlist-link>
 	</li>
 </ul>

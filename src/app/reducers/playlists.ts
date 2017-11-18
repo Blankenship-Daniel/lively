@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 export const ADD_PLAYLIST = 'ADD_PLAYLIST';
+export const ADD_SONGS_TO_PLAYLIST = 'ADD_SONGS_TO_PLAYLIST';
 
 export function playlistsReducer(state = {}, action) {
 	switch (action.type) {
@@ -11,9 +12,14 @@ export function playlistsReducer(state = {}, action) {
 			return Object.assign({}, state, {
 				[uuid]: {
 					title: title,
-					tracks: []
+					songs: []
 				}
 			});
+		case ADD_SONGS_TO_PLAYLIST:
+			const id = action.payload.id;
+			const songs = action.payload.songs;
+			state[id].songs = [...state[id].songs, ...songs];
+			return state;
 		default:
 			return state;
 	}

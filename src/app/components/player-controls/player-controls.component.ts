@@ -18,6 +18,7 @@ export class PlayerControlsComponent implements OnInit {
   private selection: Observable<any>;
   private songs: Observable<any>;
   private song: Observable<any>;
+  private playlist: Observable<any>;
 
   private currSong;
 
@@ -28,12 +29,15 @@ export class PlayerControlsComponent implements OnInit {
     this.song = store.select('player');
     this.songs = store.select('songs');
     this.selection = store.select('selection');
+    this.playlist = store.select('playlist');
     this.selectionDisplay = '';
   }
 
   ngAfterViewInit() {
     this.song.subscribe(song => this.playSong(song));
-    this.player.nativeElement.addEventListener('ended', _ => this.playSong(this.songsService.getNextSong(this.currSong)));
+    this.player.nativeElement.addEventListener('ended', _ => {
+      this.playSong(this.songsService.getNextSong(this.currSong))
+    });
   }
 
   ngOnInit() {
@@ -42,6 +46,10 @@ export class PlayerControlsComponent implements OnInit {
       songs.forEach(song => this.selectionDisplay += song.title + ' > ');
     });
     this.songs.subscribe(songs => this.songsService.setSongs(songs));
+    this.playlist.subscribe(playlist => {
+      if (playlist.value !== undefined)
+        this.songsService.setSongs(playlist.value.songs);
+    });
   }
 
   playSong(song) {
