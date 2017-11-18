@@ -14,11 +14,13 @@ import { SongsService } from './songs.service';
 import { KeysPipe } from './keys.pipe';
 
 import { playerReducer } from './reducers/player';
+import { playableReducer } from './reducers/playable';
 import { playlistReducer } from './reducers/playlist';
 import { playlistsReducer } from './reducers/playlists';
 import { selectionReducer } from './reducers/selection';
 import { songsReducer } from './reducers/songs';
 import { viewsReducer } from './reducers/views';
+import { activeReducer } from './reducers/active';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -29,6 +31,7 @@ import { PlayerControlsComponent } from './components/player-controls/player-con
 import { PlaylistLinkComponent } from './components/playlist-link/playlist-link.component';
 import { PlaylistViewComponent } from './components/playlist-view/playlist-view.component';
 import { LibraryViewComponent } from './components/library-view/library-view.component';
+import { SelectionQueueComponent } from './components/selection-queue/selection-queue.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import { LibraryViewComponent } from './components/library-view/library-view.com
     PlayerControlsComponent,
     PlaylistLinkComponent,
     PlaylistViewComponent,
-    LibraryViewComponent
+    LibraryViewComponent,
+    SelectionQueueComponent
   ],
   imports: [
     BrowserModule,
@@ -50,11 +54,13 @@ import { LibraryViewComponent } from './components/library-view/library-view.com
     AppRoutingModule,
     StoreModule.forRoot({
       player: playerReducer,
+      playable: playableReducer,
       playlist: playlistReducer,
       playlists: playlistsReducer,
       selection: selectionReducer,
       songs: songsReducer,
-      views: viewsReducer
+      views: viewsReducer,
+      active: activeReducer
     })
   ],
   providers: [

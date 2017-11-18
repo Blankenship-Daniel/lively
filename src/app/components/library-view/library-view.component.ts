@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
 import { ADD_SONGS } from '../../reducers/songs';
 import * as id3Parser from 'id3-parser';
+import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
 @Component({
   selector: 'app-library-view',
   templateUrl: './library-view.component.html',
@@ -31,6 +32,7 @@ export class LibraryViewComponent implements OnInit {
 
     Promise.all(songsPromiseArray).then(songs => {
       this.store.dispatch({ type: ADD_SONGS, payload: songs });
+      this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
     });
   }
 }

@@ -2,7 +2,8 @@
   <app-sidebar class="bg-grey-50"></app-sidebar>
   <div class="main">
     <app-library-view [hidden]="!hideView"></app-library-view>
-    <app-playlist-view [id]="playlistId" [hidden]="hideView"></app-playlist-view>
+    <app-playlist-view [hidden]="hideView"></app-playlist-view>
   </div>
+  <app-selection-queue></app-selection-queue>
   <app-player-controls class="bg-purple-800"></app-player-controls>
 </div>

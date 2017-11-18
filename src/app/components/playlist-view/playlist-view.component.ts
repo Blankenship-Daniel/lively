@@ -9,15 +9,18 @@ import { Observable } from 'rxjs/Rx';
 export class PlaylistViewComponent implements OnInit {
 
   private title: string = 'Playlist';
+  private playableSongs: Observable<any>;
   private playlist: Observable<any>;
-  private playlistData;
 
   constructor(private store: Store<any>) {
+    this.playableSongs = store.select('playable');
     this.playlist = store.select('playlist');
-    this.playlistData = {};
   }
 
   ngOnInit() {
-    this.playlist.subscribe(playlist => this.playlistData = playlist);
+    this.playlist.subscribe(playlist => {
+      if (playlist.value !== undefined)
+        this.title = playlist.value.title;
+    });
   }
 }

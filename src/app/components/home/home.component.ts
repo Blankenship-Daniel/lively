@@ -19,8 +19,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.views.subscribe(view => {
-      console.log('view', view);
-
       switch (view.active) {
         case LOAD_PLAYLIST_VIEW:
           this.hideView = false;
