@@ -1,7 +1,12 @@
-<div [ngClass]="{'active': active}" class="song" (click)="selectSong(song)" (dblclick)="playSong(song)">
-  <div>{{ song.title }}</div>
-  <div>{{ song.artist }}</div>
-  <div>{{ song.album }}</div>
-  <div>{{ song.genre }}</div>
+<div [ngClass]="{'active': active}" class="song color-grey-50" (click)="selectSong(song)" (dblclick)="playSong(song)">
+  <div class="song-index color-grey-200">{{ index + 1 }}.</div>
+  <div>
+    <div class="song-title">
+      {{ song.title }}
+    </div>
+    <div class="song-info color-grey-400">
+      <span><strong>{{ song.artist }}</strong></span>
+      <span *ngIf="song.album"> - {{ song.album }}</span>
+    </div>
+  </div>
 </div>
-<div style="clear: both"></div>

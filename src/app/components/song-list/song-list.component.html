@@ -1,1 +1,6 @@
-<app-song class="color-grey-800" *ngFor="let song of songs" [song]="song"></app-song>
+<app-song
+	class="color-grey-800"
+	*ngFor="let song of songs; let i = index"
+	[index]="i"
+	[song]="song">
+</app-song>

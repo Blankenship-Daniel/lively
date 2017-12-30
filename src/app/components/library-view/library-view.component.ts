@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
-import { ADD_SONGS } from '../../reducers/songs';
 import * as id3Parser from 'id3-parser';
+
+import { ADD_SONGS } from '../../reducers/songs';
 import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
+import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
 @Component({
   selector: 'app-library-view',
   templateUrl: './library-view.component.html',
@@ -17,22 +19,35 @@ export class LibraryViewComponent implements OnInit {
     this.songs = store.select('songs');
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
-  onFileChange(event) {
+  getSongDuration(src: string): Promise<number> {
+    let audio = new Audio();
+    audio.preload = 'metadata';
+    audio.src = src;
+
+    return new Promise(resolve =>
+      audio.addEventListener('loadedmetadata', ev => resolve(audio.duration)));
+  }
+
+  async onFileChange(event) {
     let files: FileList = event.target.files;
-    let songsPromiseArray: Array<any> = [];
+    let songsArray: Array<any> = [];
 
-    Array.from(files).forEach((file: File) => {
-      songsPromiseArray.push(id3Parser.parse(file).then((tag: any) => {
-        tag.path = file.path;
-        return tag;
-      }));
-    });
+    let filesArray: Array<File> = Array.from(files);
 
-    Promise.all(songsPromiseArray).then(songs => {
-      this.store.dispatch({ type: ADD_SONGS, payload: songs });
-      this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
-    });
+    for (let i = 0; i < filesArray.length; i++) {
+      const path: string      = filesArray[i].path;
+      const duration: number  = await this.getSongDuration(path);
+      let songMetadata: any   = await id3Parser.parse(filesArray[i]);
+      songMetadata.duration   = duration;
+      songMetadata.path       = path;
+      songsArray.push(songMetadata);
+    }
+
+    this.store.dispatch({ type: ADD_SONGS, payload: songsArray });
+    this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songsArray });
+    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songsArray });
   }
 }

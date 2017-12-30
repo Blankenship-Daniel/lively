@@ -1,15 +1,13 @@
-<h1 (click)="loadLibrary()">Lively</h1>
+<h1 class="pointer" (click)="loadLibrary()">Lively</h1>
 
 <ul>
-	<li>
-		<span *ngIf="!create">
-			New Playlist
-			<i (click)="create = true" id="newPlaylistBtn" class="color-green-a200 fa fa-plus"></i>
-		</span>
-		<span *ngIf="create">
-			<input (keyup)="onKey(createPlaylistInput.value, $event)" #createPlaylistInput autofocus type="text" placeholder="New Playlist">
-			<i (click)="createPlaylist(createPlaylistInput.value)" class="color-green-a200 fa fa-plus"></i>
-		</span>
+	<li class="color-grey-50">
+		<input
+			#createPlaylistInput
+			class="create-playlist-input color-grey-50"
+			type="text"
+			(keyup)="onKey(createPlaylistInput, $event)"
+			placeholder="Create Playlist">
 	</li>
 	<li class="playlist-name" *ngFor="let playlist of playlists | async | keys">
 		<app-playlist-link [playlist]="playlist"></app-playlist-link>

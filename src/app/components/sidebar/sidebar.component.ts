@@ -29,9 +29,10 @@ export class SidebarComponent implements OnInit {
     this.songs.subscribe(songs => this.allSongs = songs);
   }
 
-  onKey(playlistName, event) {
+  onKey(createPlaylistInput, event) {
     if (event.key === 'Enter') {
-      this.createPlaylist(playlistName);
+      this.createPlaylist(createPlaylistInput.value);
+      createPlaylistInput.value = '';
     }
   }
 

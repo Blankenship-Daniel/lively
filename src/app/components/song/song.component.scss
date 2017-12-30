@@ -3,30 +3,37 @@
 	display: block;
 	user-select: none;
 	cursor: default;
-
-	&:nth-child(even) {
-		background: #EEE;
-	}
 }
 
 .active {
-	background: #E1BEE7;
+	background-color: rgba(0, 0, 0, .6);
 }
 
 .song {
 	padding: 10px;
-	min-width: 1000px;
-	height: 15px;
+	display: flex;
+}
 
-	div {
-		float: left;
-		width: 25%;
-		overflow-x: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+.song-title,
+.song-info {
+	padding: 5px;
+}
 
-		&:last-child {
-			text-align: right;
-		}
-	}
+.song-index {
+	font-size: 12px;
+	padding: 10px 15px;
+}
+
+.song-title {
+	font-size: 18px;
+}
+
+.song-info {
+	font-size: 12px;
+	flex-grow: 1;
+}
+
+.fa.fa-circle {
+	font-size: 5px;
+	padding: 0px 5px;
 }

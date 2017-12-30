@@ -5,29 +5,79 @@
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	height: 80px;
+	height: 100px;
 	width: 100%;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
 }
 
 .controls-box {
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	flex-direction: column;
+	justify-content: space-around;
 	width: 500px;
 	height: 100%;
 }
 
+.controls-container {
+	display: flex;
+	justify-content: center;
+}
+
 .controls {
+	display: flex;
+	justify-content: space-around;
+	width: 300px;
 	user-select: none;
+}
 
-	.next, .back, .play, .pause {
-		font-size: 1.5em;
-		padding: 0px 20px;
-		cursor: pointer;
+.shuffle-btn {
+	font-size: 20px;
+	margin-left: 40px;
+}
 
-		&:hover {
-			font-weight: bold;
-		}
+.progress-bar {
+	display: flex;
+	font-size: 12px;
+
+	.time {
+		margin: 0px 10px;
 	}
+}
+
+input[type=range] {
+	-webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+	width: 100%; /* Specific width is required for Firefox. */
+	background: transparent; /* Otherwise white in Chrome */
+}
+
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+}
+
+input[type=range]:focus {
+	outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
+	background: #f5f5f5;
+	cursor: pointer;
+	margin-top: -2px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 5px;
+	cursor: pointer;
+	background: #424242;
+	border-radius: 5px;
+	transition: background .2s ease-in-out;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+	background: #616161;
 }

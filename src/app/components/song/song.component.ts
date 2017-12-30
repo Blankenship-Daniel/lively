@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
-import { SELECT_SONG } from 'app/reducers/selection';
-import { PLAY_SONG } from 'app/reducers/player';
 import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Rx';
+
+import { PLAY_SONG } from 'app/reducers/player';
+import { SELECT_SONG } from 'app/reducers/selection';
+import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
@@ -12,17 +13,20 @@ import { Observable } from 'rxjs/Rx';
 })
 export class SongComponent implements OnInit {
 
+  @Input() index;
   @Input() song;
 
   private playableSongs: Observable<any>;
-  private songs: Array<any>;
   private views: Observable<any>;
+  private selections: Observable<any>;
+  private songs: Array<any>;
   private active: boolean;
   private audio;
 
   constructor(private store: Store<any>) {
     this.views = store.select('views');
     this.playableSongs = store.select('playable');
+    this.selections = store.select('selection');
     this.songs = [];
     this.active = false;
   }
@@ -30,6 +34,11 @@ export class SongComponent implements OnInit {
   ngOnInit() {
     this.song.id = UUID.UUID();
     this.views.subscribe(view => this.active = false);
+    this.selections.subscribe(selections => {
+      if (selections.length === 0) {
+        this.active = false;
+      }
+    });
     this.playableSongs.subscribe(songs => this.songs = songs);
   }
 

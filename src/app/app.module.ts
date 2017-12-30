@@ -10,7 +10,8 @@ import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 
 import { ElectronService } from './providers/electron.service';
-import { SongsService } from './songs.service';
+import { SongsService } from './services/songs.service';
+import { PlayerService } from './services/player.service';
 import { KeysPipe } from './keys.pipe';
 
 import { playerReducer } from './reducers/player';
@@ -65,7 +66,8 @@ import { SelectionQueueComponent } from './components/selection-queue/selection-
   ],
   providers: [
     ElectronService,
-    SongsService
+    SongsService,
+    PlayerService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,9 @@
 <div>
-  <span (click)="loadPlaylist()">{{ playlist.value.title }}</span>
-  <br>
-  <button (click)="addSongsToPlaylist(selectedSongsArr)" [hidden]="!songsAreSelected">Add Selected Songs</button>
+  <div (click)="loadPlaylist()">{{ playlist.value.title }}</div>
+  <div
+    class="add-songs-link"
+    [ngClass]="{'hidden': !songsAreSelected}"
+    (click)="addSongsToPlaylist(selectedSongsArr)">
+    Add Songs <i class="fa fa-plus"></i>
+  </div>
 </div>
