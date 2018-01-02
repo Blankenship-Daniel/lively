@@ -1,6 +1,6 @@
 .main {
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	position: fixed;
 	bottom: 0;
@@ -8,6 +8,23 @@
 	height: 100px;
 	width: 100%;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+.current-song,
+.volume {
+	width: 400px;
+}
+
+.current-song {
+	.title, .artist {
+		overflow-x: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		padding-left: 50px;
+	}
+	.artist {
+		font-size: 12px;
+	}
 }
 
 .controls-box {

@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef, AfterViewI
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
 import { SongsService } from '../../services/songs.service';
+
+import { PLAY_SONG } from 'app/reducers/player';
 @Component({
   selector: 'app-player-controls',
   templateUrl: './player-controls.component.html',
@@ -37,12 +39,14 @@ export class PlayerControlsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.song.subscribe(song => {
-      if (Object.keys(song).length > 0) {
-        this.setSong(song);
+    this.song.subscribe(songObj => {
+      if (Object.keys(songObj.song).length > 0) {
+        this.setSong(songObj.song);
       }
     });
-    this.player.addEventListener('ended', event => this.setSong(this.songsService.getNextSong(this.currSong)));
+    this.player.addEventListener('ended', event => {
+      this.store.dispatch({ type: PLAY_SONG, payload: { song: this.songsService.getNextSong(this.currSong) }});
+    });
     this.player.addEventListener('timeupdate', event => {
       this.currTime = this.player.currentTime;
       this.cd.detectChanges();
@@ -58,12 +62,6 @@ export class PlayerControlsComponent implements OnInit {
       this.songs = songs;
       this.setActiveSongs(songs);
     });
-  }
-
-  formatTime(seconds): string {
-    let date: Date = new Date(null);
-    date.setSeconds(seconds);
-    return date.toISOString().substr(11, 8);
   }
 
   seekProgressBar(event) {
@@ -86,13 +84,13 @@ export class PlayerControlsComponent implements OnInit {
 
   playNextSong() {
     if (this.currSong) {
-      this.setSong(this.songsService.getNextSong(this.currSong));
+      this.store.dispatch({ type: PLAY_SONG, payload: { song: this.songsService.getNextSong(this.currSong) }});
     }
   }
 
   playPrevSong() {
     if (this.currSong) {
-
+      // TODO: implement previous song functionality
     }
   }
 

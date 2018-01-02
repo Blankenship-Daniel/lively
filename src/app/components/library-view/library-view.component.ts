@@ -32,9 +32,8 @@ export class LibraryViewComponent implements OnInit {
   }
 
   async onFileChange(event) {
-    let files: FileList = event.target.files;
+    const files: FileList = event.target.files;
     let songsArray: Array<any> = [];
-
     let filesArray: Array<File> = Array.from(files);
 
     for (let i = 0; i < filesArray.length; i++) {
@@ -43,6 +42,7 @@ export class LibraryViewComponent implements OnInit {
       let songMetadata: any   = await id3Parser.parse(filesArray[i]);
       songMetadata.duration   = duration;
       songMetadata.path       = path;
+
       songsArray.push(songMetadata);
     }
 

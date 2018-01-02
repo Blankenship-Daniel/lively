@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
-import { SongsService } from '../../services/songs.service';
+import { SongsService } from 'app/services/songs.service';
 
 import { LOAD_LIBRARY_VIEW } from 'app/reducers/views';
 import { ADD_PLAYABLE_SONG } from 'app/reducers/playable';

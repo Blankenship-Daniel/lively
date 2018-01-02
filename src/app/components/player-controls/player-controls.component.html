@@ -1,4 +1,15 @@
 <div class="main color-grey-50 bg-grey-900">
+  <div class="current-song">
+    <div *ngIf="currSong">
+      <div>
+        <p class="title color-grey-50">{{ currSong.title }}</p>
+        <p class="artist color-grey-400">
+          <span *ngIf="currSong.artist">{{ currSong.artist }}</span>
+          <span *ngIf="!currSong.artist">&nbsp;</span>
+        </p>
+      </div>
+    </div>
+  </div>
   <div class="controls-box">
     <div class="controls-container">
       <div class="controls">
@@ -28,9 +39,12 @@
         </div>
     </div>
     <div class="progress-bar color-grey-600">
-      <span class="time">{{ formatTime(currTime) }}</span>
+      <span class="time">{{ songsService.formatTime(currTime) }}</span>
       <input (input)="seekProgressBar($event)" type="range" [value]="currTime" [max]="duration">
-      <span class="time">{{ formatTime(duration) }}</span>
+      <span class="time">{{ songsService.formatTime(duration) }}</span>
     </div>
+  </div>
+  <div class="volume">
+    <!-- Future home of volume controls? -->
   </div>
 </div>

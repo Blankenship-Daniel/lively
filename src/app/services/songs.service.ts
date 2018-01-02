@@ -38,7 +38,7 @@ export class SongsService {
     return this.songs[nextIndex];
   }
 
-  flattenSongs(songs: Array<any>) {
+  flattenSongs(songs: Array<any>): Array<any> {
     let flattenedSongs: Array<any> = [];
     for (let i = 0; i < songs.length; i++) {
       if (songs[i].songs) {
@@ -51,19 +51,26 @@ export class SongsService {
     return flattenedSongs;
   }
 
-  combineSongs(songs: Array<any>) {
+  combineSongs(songs: Array<any>): any {
     let flattenedSongs = this.flattenSongs(songs);
     return {
       id: UUID.UUID(),
       artist: this.getArtists(flattenedSongs),
       currSongIndex: 0,
+      duration: this.getTotalSongDuration(flattenedSongs),
       songs: flattenedSongs,
       title: this.getSongTitles(flattenedSongs),
       year: (new Date()).getFullYear()
     };
   }
 
-  getArtists(songs: Array<any>) : string {
+  getTotalSongDuration(songs: Array<any>): number {
+    return songs
+      .map(song => song.duration)
+      .reduce((total, duration) => total + duration);
+  }
+
+  getArtists(songs: Array<any>): string {
     let artists: Array<string> = [];
     songs.forEach(song => {
       if (song.artist && song.artist !== '' && !artists.includes(song.artist)) {
@@ -82,5 +89,11 @@ export class SongsService {
   shuffleSongs(songs: Array<any>) : Array<any> {
     let shuffleSongs: Array<any> = JSON.parse(JSON.stringify(songs)); // deep copy so we don't change the incoming songs array
     return shuffleSongs.sort(() => Math.random() - 0.5);
+  }
+
+  formatTime(seconds): string {
+    let date: Date = new Date(null);
+    date.setSeconds(seconds);
+    return date.toISOString().substr(14, 5);
   }
 }

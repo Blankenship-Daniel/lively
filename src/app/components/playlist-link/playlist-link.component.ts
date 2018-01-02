@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
+
 import { ADD_SONGS_TO_PLAYLIST } from 'app/reducers/playlists';
 import { LOAD_PLAYLIST_DATA } from 'app/reducers/playlist';
 import { LOAD_PLAYLIST_VIEW } from 'app/reducers/views';
@@ -42,10 +43,10 @@ export class PlaylistLinkComponent implements OnInit {
     this.store.dispatch({ type: LOAD_PLAYLIST_VIEW, payload: { active: LOAD_PLAYLIST_VIEW }});
     this.store.dispatch({ type: LOAD_PLAYLIST_DATA, payload: this.playlist });
     this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: this.playlist.value.songs });
-    this.store.dispatch({ type: CLEAR_SELECTIONS });
   }
 
   addSongsToPlaylist(songs: Array<any>) {
+    this.store.dispatch({ type: CLEAR_SELECTIONS });
     this.store.dispatch({ type: ADD_SONGS_TO_PLAYLIST, payload: {
         id: this.playlist.key,
         songs: songs

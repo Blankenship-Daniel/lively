@@ -1,8 +1,11 @@
-<div [ngClass]="{'active': active}" class="song color-grey-50" (click)="selectSong(song)" (dblclick)="playSong(song)">
-  <div class="song-index color-grey-200">{{ index + 1 }}.</div>
-  <div>
+<div [ngClass]="{'active': active}" class="song color-grey-100" (click)="selectSong(song)" (dblclick)="playSong(song)">
+  <div class="song-index color-grey-200">
+    <span *ngIf="!playing">{{ index + 1 }}.</span>
+    <span *ngIf="playing"><i class="fa fa-play"></i></span>
+  </div>
+  <div class="song-info-container">
     <div class="song-title">
-      {{ song.title }}
+      <span>{{ song.title }}</span><span class="song-duration color-grey-400">{{ songsService.formatTime(song.duration) }}</span>
     </div>
     <div class="song-info color-grey-400">
       <span><strong>{{ song.artist }}</strong></span>

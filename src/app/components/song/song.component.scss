@@ -12,6 +12,10 @@
 .song {
 	padding: 10px;
 	display: flex;
+
+	&:hover {
+		@extend .active;
+	}
 }
 
 .song-title,
@@ -20,17 +24,30 @@
 }
 
 .song-index {
+	width: 30px;
 	font-size: 12px;
 	padding: 10px 15px;
 }
 
 .song-title {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 	font-size: 18px;
 }
 
+.song-duration,
 .song-info {
 	font-size: 12px;
+}
+
+.song-info {
 	flex-grow: 1;
+}
+
+.song-info-container {
+	padding-right: 50px;
+	width: 100%;
 }
 
 .fa.fa-circle {
