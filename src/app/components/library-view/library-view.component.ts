@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { NgZone, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
 import * as id3Parser from 'id3-parser';
 
-import { ADD_SONGS } from '../../reducers/songs';
+import { ADD_SONGS } from 'app/reducers/songs';
 import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
 import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
 @Component({
@@ -14,9 +14,13 @@ import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
 export class LibraryViewComponent implements OnInit {
 
   private songs: Observable<any>;
+  private songsLoaded: boolean;
+  private songsLoading: boolean;
 
   constructor(private store: Store<any>) {
     this.songs = store.select('songs');
+    this.songsLoaded = false;
+    this.songsLoading = false;
   }
 
   ngOnInit() {
@@ -32,6 +36,8 @@ export class LibraryViewComponent implements OnInit {
   }
 
   async onFileChange(event) {
+    this.songsLoading = true;
+
     const files: FileList = event.target.files;
     let songsArray: Array<any> = [];
     let filesArray: Array<File> = Array.from(files);
@@ -49,5 +55,8 @@ export class LibraryViewComponent implements OnInit {
     this.store.dispatch({ type: ADD_SONGS, payload: songsArray });
     this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songsArray });
     this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songsArray });
+
+    this.songsLoading = false;
+    this.songsLoaded = true;
   }
 }

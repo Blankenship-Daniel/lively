@@ -10,6 +10,14 @@
 	background-color: rgba(0, 0, 0, .6);
 }
 
+#logo {
+	margin-bottom: 20px;
+}
+
+#libraryLink {
+	cursor: pointer;
+}
+
 ul {
 	margin-top: 0;
 	margin-bottom: 0;
@@ -20,9 +28,10 @@ li {
 }
 
 input {
+	margin-top: 20px;
 	background: none;
 	border: none;
-	border-bottom: 1px solid #424242;
+	border-bottom: 1px solid #616161;
 	box-shadow: none;
 	padding-bottom: 5px;
 	font-size: 14px;
@@ -32,6 +41,10 @@ input {
 		outline: none;
 		border-bottom-color: #eee;
 	}
+}
+
+.link {
+
 }
 
 .playlist-name {

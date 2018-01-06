@@ -10,9 +10,7 @@ export class SongListComponent implements OnInit {
 
   @Input() songs;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

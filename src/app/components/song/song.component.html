@@ -12,4 +12,7 @@
       <span *ngIf="song.album"> - {{ song.album }}</span>
     </div>
   </div>
+  <div class="delete-song-icon">
+    <i (click)="deleteSong(song)" class="fa fa-minus-circle"></i>
+  </div>
 </div>

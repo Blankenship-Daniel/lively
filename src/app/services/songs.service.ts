@@ -22,7 +22,7 @@ export class SongsService {
   getPrevSong(song: any) : any {}
 
   getNextSong(song: any) : any {
-    // continue to cycle through the set of combined songs
+    // Continue to cycle through the set of combined songs
     //  until the end of the list is reached
     if (song.songs && song.songs.length > 0) {
       song.currSongIndex++;
@@ -32,7 +32,7 @@ export class SongsService {
       song.currSongIndex = 0;
     }
 
-    // move onto the next song in the list. Cycle back to the beginning
+    // Move onto the next song in the list. Cycle back to the beginning
     //  when the end of the list is reached
     let nextIndex = (this.songs.indexOf(song) + 1) % this.songs.length;
     return this.songs[nextIndex];
@@ -87,7 +87,7 @@ export class SongsService {
   }
 
   shuffleSongs(songs: Array<any>) : Array<any> {
-    let shuffleSongs: Array<any> = JSON.parse(JSON.stringify(songs)); // deep copy so we don't change the incoming songs array
+    let shuffleSongs: Array<any> = [...songs]; // deep copy so we don't change the incoming songs array
     return shuffleSongs.sort(() => Math.random() - 0.5);
   }
 

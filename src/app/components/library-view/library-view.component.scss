@@ -1,3 +1,27 @@
-.add-music-btn {
-	margin-bottom: 40px;
+.add-music-container {
+	height: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#addMusicInput {
+	display: none;
+}
+
+#addMusicBtn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 225px;
+	height: 60px;
+	border: 2px dotted;
+	border-radius: 5px;
+	cursor: pointer;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+
+	&:hover {
+		color: #fff;
+	}
 }

@@ -19,8 +19,9 @@ export class PlaylistViewComponent implements OnInit {
 
   ngOnInit() {
     this.playlist.subscribe(playlist => {
-      if (playlist.value !== undefined)
+      if (playlist.value) {
         this.title = playlist.value.title;
+      }
     });
   }
 }

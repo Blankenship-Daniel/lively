@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
-import { SongsService } from '../../services/songs.service';
+import { SongsService } from 'app/services/songs.service';
 
 import { PLAY_SONG } from 'app/reducers/player';
 @Component({
@@ -11,11 +11,12 @@ import { PLAY_SONG } from 'app/reducers/player';
 })
 export class PlayerControlsComponent implements OnInit {
 
-  private path: string;
-  private player: any;
-  private song: Observable<any>;
-  private songs: Array<any>;
+  private player: Observable<any>;
   private activeSongs: Observable<any>;
+
+  private path: string;
+  private audio: any;
+  private songs: Array<any>;
   private currSong: any;
   private isShuffled: boolean = false;
   private isPlaying: boolean = false;
@@ -29,30 +30,30 @@ export class PlayerControlsComponent implements OnInit {
     private store: Store<any>,
     private songsService: SongsService
   ) {
-    this.song = store.select('player');
+    this.player = store.select('player');
     this.activeSongs = store.select('active');
     this.songs = [];
-    this.player = new Audio();
+    this.audio = new Audio();
 
     this.currTime = 0;
     this.duration = 0.1; // prevents NaN divide by zero error.
   }
 
   ngAfterViewInit() {
-    this.song.subscribe(songObj => {
+    this.player.subscribe(songObj => {
       if (Object.keys(songObj.song).length > 0) {
         this.setSong(songObj.song);
       }
     });
-    this.player.addEventListener('ended', event => {
+    this.audio.addEventListener('ended', event => {
       this.store.dispatch({ type: PLAY_SONG, payload: { song: this.songsService.getNextSong(this.currSong) }});
     });
-    this.player.addEventListener('timeupdate', event => {
-      this.currTime = this.player.currentTime;
+    this.audio.addEventListener('timeupdate', event => {
+      this.currTime = this.audio.currentTime;
       this.cd.detectChanges();
     });
-    this.player.addEventListener('durationchange', event => {
-      this.duration = this.player.duration;
+    this.audio.addEventListener('durationchange', event => {
+      this.duration = this.audio.duration;
       this.cd.detectChanges();
     });
   }
@@ -65,18 +66,18 @@ export class PlayerControlsComponent implements OnInit {
   }
 
   seekProgressBar(event) {
-    this.player.currentTime = event.target.valueAsNumber;
+    this.audio.currentTime = event.target.valueAsNumber;
   }
 
   setSong(song: any) {
     this.currSong = song || this.currSong;
     // a single song
     if (song && song.path && song.path !== '') {
-      this.player.src = song.path;
+      this.audio.src = song.path;
     }
     // a set of combined songs
     else if (song && song.songs && song.songs.length > 0) {
-      this.player.src = song.songs[song.currSongIndex].path;
+      this.audio.src = song.songs[song.currSongIndex].path;
     }
 
     this.playSong();
@@ -84,26 +85,36 @@ export class PlayerControlsComponent implements OnInit {
 
   playNextSong() {
     if (this.currSong) {
-      this.store.dispatch({ type: PLAY_SONG, payload: { song: this.songsService.getNextSong(this.currSong) }});
+      if (this.songsService.getSongs().length) {
+        this.store.dispatch({ type: PLAY_SONG, payload: { song: this.songsService.getNextSong(this.currSong) }});
+      }
+      else {
+        this.audio.src = '';
+      }
     }
   }
 
   playPrevSong() {
     if (this.currSong) {
-      // TODO: implement previous song functionality
+      if (this.songsService.getSongs().length) {
+        // TODO
+      }
+      else {
+        this.audio.src = '';
+      }
     }
   }
 
   playSong() {
-    if (this.player.src !== '') {
+    if (this.audio.src !== '') {
       this.isPlaying = true;
-      this.player.play();
+      this.audio.play();
     }
   }
 
   pauseSong() {
     this.isPlaying = false;
-    this.player.pause();
+    this.audio.pause();
   }
 
   shuffleSongs() {

@@ -48,7 +48,7 @@ export class PlaylistLinkComponent implements OnInit {
   addSongsToPlaylist(songs: Array<any>) {
     this.store.dispatch({ type: CLEAR_SELECTIONS });
     this.store.dispatch({ type: ADD_SONGS_TO_PLAYLIST, payload: {
-        id: this.playlist.key,
+        uuid: this.playlist.key,
         songs: songs
       }
     });
