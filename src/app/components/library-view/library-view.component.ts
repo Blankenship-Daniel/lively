@@ -1,6 +1,7 @@
 import { NgZone, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
+import { UUID } from 'angular2-uuid';
 import * as id3Parser from 'id3-parser';
 
 import { ADD_SONGS } from 'app/reducers/songs';
@@ -48,6 +49,7 @@ export class LibraryViewComponent implements OnInit {
       let songMetadata: any   = await id3Parser.parse(filesArray[i]);
       songMetadata.duration   = duration;
       songMetadata.path       = path;
+      songMetadata.id         = UUID.UUID();
 
       songsArray.push(songMetadata);
     }

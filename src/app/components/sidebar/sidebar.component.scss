@@ -28,18 +28,18 @@ li {
 }
 
 input {
-	margin-top: 20px;
+	margin: 20px 0;
 	background: none;
 	border: none;
-	border-bottom: 1px solid #616161;
+	border-bottom: 1px solid #424242;
 	box-shadow: none;
-	padding-bottom: 5px;
+	padding-bottom: 10px;
 	font-size: 14px;
 	transition: border-bottom-color .2s ease-in-out;
 
 	&:focus {
 		outline: none;
-		border-bottom-color: #eee;
+		border-bottom-color: #616161;
 	}
 }
 

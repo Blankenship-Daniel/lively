@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Rx';
 import { SongsService } from 'app/services/songs.service';
 
@@ -12,6 +11,7 @@ import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
 import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
 import { LOAD_LIBRARY_VIEW, LOAD_PLAYLIST_VIEW } from 'app/reducers/views';
 import { DELETE_SONG_FROM_PLAYLIST } from 'app/reducers/playlists';
+import { Event } from '@angular/router/src/events';
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
@@ -35,6 +35,8 @@ export class SongComponent implements OnInit {
   private playing: boolean;
   private view: string;
   private playlistId: number;
+  private activeDropZoneAbove: boolean;
+  private activeDropZoneBelow: boolean;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -49,10 +51,11 @@ export class SongComponent implements OnInit {
     this.songs = [];
     this.active = false;
     this.playing = false;
+    this.activeDropZoneAbove = false;
+    this.activeDropZoneBelow = false;
   }
 
   ngOnInit() {
-    this.song.id = UUID.UUID();
     this.views.subscribe(view => {
       this.view = view.active;
       this.active = false;
@@ -74,6 +77,55 @@ export class SongComponent implements OnInit {
       }
     });
     this.playlist.subscribe(playlist => this.playlistId = playlist.key);
+  }
+
+  dragStart(event: any) {
+    event.dataTransfer.setData('text', event.target.id);
+  }
+
+  dragOverAbove(event: any) {
+    event.preventDefault();
+    this.activeDropZoneAbove = true;
+  }
+
+  dragLeaveAbove(event: any) {
+    event.preventDefault();
+    this.activeDropZoneAbove = false;
+  }
+
+  dragOverBelow(event: any) {
+    event.preventDefault();
+    this.activeDropZoneBelow = true;
+  }
+
+  dragLeaveBelow(event: any) {
+    event.preventDefault();
+    this.activeDropZoneBelow = false;
+  }
+
+  handleDrop(event) {
+    event.preventDefault();
+    const draggedSongId = event.dataTransfer.getData('text');
+
+    if (this.song.id === draggedSongId) {
+      return false;
+    }
+
+    const insertPos       = this.songs.indexOf(this.song);
+    const draggedSong     = this.songs.filter(s => s.id === draggedSongId);
+    const draggedSongPos  = this.songs.indexOf(draggedSong[0]);
+    const songs           = this.songs.filter(s => s.id !== draggedSongId);
+
+    const pos = draggedSongPos > insertPos ? insertPos + 1: insertPos;
+    songs.splice(pos, 0, draggedSong[0]);
+
+    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs });
+    this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
+  }
+
+  drop(event) {
+    this.activeDropZoneBelow = false;
+    this.handleDrop(event);
   }
 
   deleteSong(song) {

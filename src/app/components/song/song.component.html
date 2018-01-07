@@ -1,4 +1,12 @@
-<div [ngClass]="{'active': active}" class="song color-grey-100" (click)="selectSong(song)" (dblclick)="playSong(song)">
+<div
+  [id]="song.id"
+  draggable="true"
+  class="song color-grey-100"
+  (click)="selectSong(song)"
+  (dblclick)="playSong(song)"
+  (dragstart)="dragStart($event)"
+  [ngClass]="{'active': active}">
+
   <div class="song-index color-grey-200">
     <span *ngIf="!playing">{{ index + 1 }}.</span>
     <span *ngIf="playing"><i class="fa fa-play"></i></span>
@@ -16,3 +24,6 @@
     <i (click)="deleteSong(song)" class="fa fa-minus-circle"></i>
   </div>
 </div>
+<div
+  [ngClass]="{'drop-zone-active': activeDropZoneBelow}"
+  class="drop-zone" (dragover)="dragOverBelow($event)" (dragleave)="dragLeaveBelow($event)" (drop)="drop($event)"></div>

@@ -5,7 +5,6 @@ export const ADD_SONGS_TO_PLAYLIST = 'ADD_SONGS_TO_PLAYLIST';
 export const DELETE_SONG_FROM_PLAYLIST = 'DELETE_SONG_FROM_PLAYLIST';
 
 export function playlistsReducer(state = {}, action) {
-	console.log('playlists', state);
 	switch (action.type) {
 		case ADD_PLAYLIST:
 			return {
