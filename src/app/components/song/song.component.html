@@ -1,3 +1,9 @@
+<!-- Only show the above dropzone on the first song in a playlist -->
+<div
+  *ngIf="index === 0"
+  [ngClass]="{'drop-zone-active': activeDropZoneAbove}"
+  class="drop-zone" (dragover)="dragOverAbove($event)" (dragleave)="dragLeaveAbove($event)" (drop)="drop($event)"></div>
+
 <div
   [id]="song.id"
   draggable="true"
@@ -24,6 +30,7 @@
     <i (click)="deleteSong(song)" class="fa fa-minus-circle"></i>
   </div>
 </div>
+
 <div
   [ngClass]="{'drop-zone-active': activeDropZoneBelow}"
   class="drop-zone" (dragover)="dragOverBelow($event)" (dragleave)="dragLeaveBelow($event)" (drop)="drop($event)"></div>

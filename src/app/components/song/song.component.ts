@@ -116,14 +116,27 @@ export class SongComponent implements OnInit {
     const draggedSongPos  = this.songs.indexOf(draggedSong[0]);
     const songs           = this.songs.filter(s => s.id !== draggedSongId);
 
-    const pos = draggedSongPos > insertPos ? insertPos + 1: insertPos;
-    songs.splice(pos, 0, draggedSong[0]);
+    let pos;
+    if (this.index === 0) {
+      pos = 0;
+      songs.unshift(draggedSong[0]);
+    }
+    else {
+      if (draggedSongPos > insertPos) {
+        pos = insertPos + 1;
+      }
+      else if (draggedSongPos < insertPos) {
+        pos = insertPos;
+      }
+      songs.splice(pos, 0, draggedSong[0]);
+    }
 
     this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs });
     this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
   }
 
   drop(event) {
+    this.activeDropZoneAbove = false;
     this.activeDropZoneBelow = false;
     this.handleDrop(event);
   }
