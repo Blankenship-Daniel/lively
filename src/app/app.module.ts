@@ -8,20 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
+import { reducers } from './reducers';
 
 import { ElectronService } from './providers/electron.service';
 import { SongsService } from './services/songs.service';
 import { PlayerService } from './services/player.service';
 import { KeysPipe } from './keys.pipe';
-
-import { playerReducer } from './reducers/player';
-import { playableReducer } from './reducers/playable';
-import { playlistReducer } from './reducers/playlist';
-import { playlistsReducer } from './reducers/playlists';
-import { selectionReducer } from './reducers/selection';
-import { songsReducer } from './reducers/songs';
-import { viewsReducer } from './reducers/views';
-import { activeReducer } from './reducers/active';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -53,16 +45,9 @@ import { SelectionQueueComponent } from './components/selection-queue/selection-
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    StoreModule.forRoot({
-      player: playerReducer,
-      playable: playableReducer,
-      playlist: playlistReducer,
-      playlists: playlistsReducer,
-      selection: selectionReducer,
-      songs: songsReducer,
-      views: viewsReducer,
-      active: activeReducer
-    })
+    StoreModule.forRoot(
+      reducers
+    )
   ],
   providers: [
     ElectronService,

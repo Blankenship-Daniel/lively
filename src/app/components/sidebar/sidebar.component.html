@@ -1,15 +1,13 @@
 <img id="logo" width="40" src="../../../assets/headphones.png" alt="Lively Logo">
 <hr>
-<h3 id="libraryLink" (click)="loadLibrary()"><strong>Library</strong></h3>
+<h3 id="libraryLink" (click)="loadLibrary()">
+	<strong>Library</strong>
+</h3>
 <hr>
 <ul>
 	<li class="color-grey-50">
-		<input
-			#createPlaylistInput
-			class="create-playlist-input color-grey-50"
-			type="text"
-			(keyup)="onKey(createPlaylistInput, $event)"
-			placeholder="Create Playlist">
+		<input #createPlaylistInput class="create-playlist-input color-grey-50" type="text" (keyup)="onKey(createPlaylistInput, $event)"
+		 placeholder="Create Playlist">
 	</li>
 	<li class="playlist-name" *ngFor="let playlist of playlists | async | keys">
 		<app-playlist-link [playlist]="playlist"></app-playlist-link>

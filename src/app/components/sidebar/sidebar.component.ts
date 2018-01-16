@@ -3,6 +3,9 @@ import { Store } from '@ngrx/store';
 import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Rx';
 
+import * as os from 'os';
+import * as storage from 'electron-json-storage';
+
 import { ADD_PLAYLIST } from 'app/reducers/playlists';
 import { LOAD_LIBRARY_VIEW } from 'app/reducers/views';
 import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
@@ -27,7 +30,9 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
+    storage.setDataPath(os.tmpdir());
     this.songs.subscribe(songs => this.allSongs = songs);
+    // this.playlists.subscribe(playlists => storage.set('playlists', { data: playlists }));
   }
 
   onKey(createPlaylistInput, event) {
@@ -39,7 +44,8 @@ export class SidebarComponent implements OnInit {
 
   createPlaylist(playlistName) {
     if (playlistName !== '') {
-      this.store.dispatch({ type: ADD_PLAYLIST, payload: {
+      this.store.dispatch({
+        type: ADD_PLAYLIST, payload: {
           uuid: UUID.UUID(),
           playlistName: playlistName,
           songs: []
@@ -50,7 +56,7 @@ export class SidebarComponent implements OnInit {
   }
 
   loadLibrary() {
-    this.store.dispatch({ type: LOAD_LIBRARY_VIEW, payload: { active: LOAD_LIBRARY_VIEW }});
+    this.store.dispatch({ type: LOAD_LIBRARY_VIEW, payload: { active: LOAD_LIBRARY_VIEW } });
     this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: this.allSongs });
     this.store.dispatch({ type: CLEAR_SELECTIONS });
   }

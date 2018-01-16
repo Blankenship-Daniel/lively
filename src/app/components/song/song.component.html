@@ -1,28 +1,25 @@
 <!-- Only show the above dropzone on the first song in a playlist -->
-<div
-  *ngIf="index === 0"
-  [ngClass]="{'drop-zone-active': activeDropZoneAbove}"
-  class="drop-zone" (dragover)="dragOverAbove($event)" (dragleave)="dragLeaveAbove($event)" (drop)="drop($event)"></div>
+<div *ngIf="index === 0" [ngClass]="{'drop-zone-active': activeDropZoneAbove}" class="drop-zone" (dragover)="dragOverAbove($event)"
+  (dragleave)="dragLeaveAbove($event)" (drop)="dropAbove($event)"></div>
 
-<div
-  [id]="song.id"
-  draggable="true"
-  class="song color-grey-100"
-  (click)="selectSong(song)"
-  (dblclick)="playSong(song)"
-  (dragstart)="dragStart($event)"
-  [ngClass]="{'active': active}">
+<div [id]="song.id" [draggable]="isDraggable()" class="song color-grey-100" (click)="selectSong(song)" (dblclick)="playSong(song)"
+  (dragstart)="dragStart($event)" [ngClass]="{'active': active}">
 
   <div class="song-index color-grey-200">
     <span *ngIf="!playing">{{ index + 1 }}.</span>
-    <span *ngIf="playing"><i class="fa fa-play"></i></span>
+    <span *ngIf="playing">
+      <i class="fa fa-play"></i>
+    </span>
   </div>
   <div class="song-info-container">
     <div class="song-title">
-      <span>{{ song.title }}</span><span class="song-duration color-grey-400">{{ songsService.formatTime(song.duration) }}</span>
+      <span>{{ song.title }}</span>
+      <span class="song-duration color-grey-400">{{ songsService.formatTime(song.duration) }}</span>
     </div>
     <div class="song-info color-grey-400">
-      <span><strong>{{ song.artist }}</strong></span>
+      <span>
+        <strong>{{ song.artist }}</strong>
+      </span>
       <span *ngIf="song.album"> - {{ song.album }}</span>
     </div>
   </div>
@@ -31,6 +28,5 @@
   </div>
 </div>
 
-<div
-  [ngClass]="{'drop-zone-active': activeDropZoneBelow}"
-  class="drop-zone" (dragover)="dragOverBelow($event)" (dragleave)="dragLeaveBelow($event)" (drop)="drop($event)"></div>
+<div [ngClass]="{'drop-zone-active': activeDropZoneBelow}" class="drop-zone" (dragover)="dragOverBelow($event)" (dragleave)="dragLeaveBelow($event)"
+  (drop)="dropBelow($event)"></div>

@@ -24,6 +24,7 @@ export class PlayerControlsComponent implements OnInit {
   private currTime: number;
   private duration: number;
   private range: number;
+  private currImgSrc: string;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -37,6 +38,7 @@ export class PlayerControlsComponent implements OnInit {
 
     this.currTime = 0;
     this.duration = 0.1; // prevents NaN divide by zero error.
+    this.currImgSrc = '';
   }
 
   ngAfterViewInit() {
@@ -71,11 +73,12 @@ export class PlayerControlsComponent implements OnInit {
 
   setSong(song: any) {
     this.currSong = song || this.currSong;
-    // a single song
+
+    // Represents a single song.
     if (song && song.path && song.path !== '') {
       this.audio.src = song.path;
     }
-    // a set of combined songs
+    // Represents a set of combined songs.
     else if (song && song.songs && song.songs.length > 0) {
       this.audio.src = song.songs[song.currSongIndex].path;
     }

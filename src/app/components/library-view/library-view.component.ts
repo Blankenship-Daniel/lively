@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
 import { UUID } from 'angular2-uuid';
 import * as id3Parser from 'id3-parser';
+import * as os from 'os';
+import * as storage from 'electron-json-storage';
 
 import { ADD_SONGS } from 'app/reducers/songs';
 import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
@@ -25,6 +27,21 @@ export class LibraryViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.songsLoading = true;
+    storage.setDataPath(os.tmpdir());
+    storage.get('songs', (err, songs) => {
+
+      if (err) {
+        throw err;
+      }
+
+      if (Object.keys(songs).length > 0) {
+        this.store.dispatch({ type: ADD_SONGS, payload: songs.data });
+        this.songsLoaded = true;
+      }
+
+      this.songsLoading = false;
+    });
   }
 
   getSongDuration(src: string): Promise<number> {
@@ -51,12 +68,18 @@ export class LibraryViewComponent implements OnInit {
       songMetadata.path       = path;
       songMetadata.id         = UUID.UUID();
 
+      if (songMetadata.image) {
+        songMetadata.image.data = Array.from(songMetadata.image.data);
+      }
+
       songsArray.push(songMetadata);
     }
 
     this.store.dispatch({ type: ADD_SONGS, payload: songsArray });
     this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songsArray });
     this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songsArray });
+
+    storage.set('songs', { data: songsArray });
 
     this.songsLoading = false;
     this.songsLoaded = true;
