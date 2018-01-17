@@ -21,19 +21,16 @@ export class SongComponent implements OnInit {
   @Input() index;
   @Input() song;
 
-  private audio;
-
   private playableSongs: Observable<any>;
   private views: Observable<any>;
   private selections: Observable<any>;
   private player: Observable<any>;
   private playlist: Observable<any>;
-
   private songs: Array<any>;
-  private active: boolean;
-  private playing: boolean;
   private view: string;
   private playlistId: number;
+  private active: boolean;
+  private playing: boolean;
   private activeDropZoneAbove: boolean;
   private activeDropZoneBelow: boolean;
 
@@ -140,7 +137,7 @@ export class SongComponent implements OnInit {
   }
 
   deleteSong(song) {
-    const songs = this.songs.filter(s => s.id !== song.id);
+    const songs: Array<any> = this.songs.filter(s => s.id !== song.id);
 
     switch (this.view) {
       case LOAD_LIBRARY_VIEW:
