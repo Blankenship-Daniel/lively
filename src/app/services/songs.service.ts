@@ -19,7 +19,25 @@ export class SongsService {
     return this.songs;
   }
 
-  getPrevSong(song: any) : any {}
+  getPrevSong(song: any) : any {
+    // Combined songs
+    if (song.songs && song.songs.length > 0 && song.currSongIndex > 0) {
+      song.currSongIndex--;
+      return song;
+    }
+
+    if (song.repeat) {
+      return song;
+    }
+
+    // Single songs
+    const i = this.songs.indexOf(song);
+    if (i === 0) { // Return to the end of the songs list if we are at the first song
+      return this.songs[this.songs.length - 1];
+    }
+
+    return this.songs[i - 1];
+  }
 
   getNextSong(song: any) : any {
     // Continue to cycle through the set of combined songs
@@ -32,9 +50,13 @@ export class SongsService {
       song.currSongIndex = 0;
     }
 
+    if (song.repeat) {
+      return song;
+    }
+
     // Move onto the next song in the list. Cycle back to the beginning
     //  when the end of the list is reached
-    let nextIndex = (this.songs.indexOf(song) + 1) % this.songs.length;
+    const nextIndex = (this.songs.indexOf(song) + 1) % this.songs.length;
     return this.songs[nextIndex];
   }
 

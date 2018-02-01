@@ -9,6 +9,7 @@ import * as storage from 'electron-json-storage';
 import { ADD_SONGS } from 'app/reducers/songs';
 import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
 import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
+
 @Component({
   selector: 'app-library-view',
   templateUrl: './library-view.component.html',
@@ -29,18 +30,27 @@ export class LibraryViewComponent implements OnInit {
   ngOnInit() {
     this.songsLoading = true;
     storage.setDataPath(os.tmpdir());
+
     storage.get('songs', (err, songs) => {
 
       if (err) {
         throw err;
       }
 
-      if (Object.keys(songs).length > 0) {
+      if (songs.data && Object.keys(songs.data).length > 0) {
         this.store.dispatch({ type: ADD_SONGS, payload: songs.data });
+        this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs.data });
+        this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs.data });
         this.songsLoaded = true;
       }
 
       this.songsLoading = false;
+    });
+
+    this.songs.subscribe(songs => {
+      if (songs.length === 0) {
+        this.songsLoaded = false;
+      }
     });
   }
 
@@ -53,7 +63,7 @@ export class LibraryViewComponent implements OnInit {
       audio.addEventListener('loadedmetadata', ev => resolve(audio.duration)));
   }
 
-  async onFileChange(event) {
+  async onFileChange(event: any) {
     this.songsLoading = true;
 
     const files: FileList = event.target.files;
@@ -67,6 +77,7 @@ export class LibraryViewComponent implements OnInit {
       songMetadata.duration   = duration;
       songMetadata.path       = path;
       songMetadata.id         = UUID.UUID();
+      songMetadata.repeat     = false;
 
       if (songMetadata.image) {
         songMetadata.image.data = Array.from(songMetadata.image.data);

@@ -10,6 +10,7 @@ import { ADD_PLAYLIST, ADD_PLAYLISTS } from 'app/reducers/playlists';
 import { LOAD_LIBRARY_VIEW } from 'app/reducers/views';
 import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
 import { CLEAR_SELECTIONS } from 'app/reducers/selection';
+import { Event } from '@angular/router/src/events';
 
 @Component({
   selector: 'app-sidebar',
@@ -43,14 +44,14 @@ export class SidebarComponent implements OnInit {
     this.playlists.subscribe(playlists => storage.set('playlists', { data: playlists }));
   }
 
-  onKey(createPlaylistInput, event) {
+  onKey(createPlaylistInput: any, event: any) {
     if (event.key === 'Enter') {
       this.createPlaylist(createPlaylistInput.value);
       createPlaylistInput.value = '';
     }
   }
 
-  createPlaylist(playlistName) {
+  createPlaylist(playlistName: string) {
     if (playlistName !== '') {
       this.store.dispatch({
         type: ADD_PLAYLIST, payload: {

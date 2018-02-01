@@ -1,0 +1,21 @@
+@import '../../../colors';
+
+h1 {
+	color: $md-grey-50;
+}
+
+hr {
+	background: $md-blue-900;
+}
+
+.title {
+	.delete-playlist-btn {
+		margin-left: 2px;
+		font-size: 12px;
+		color: $md-grey-400;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		cursor: pointer;
+	}
+}
+

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
 import { LOAD_LIBRARY_VIEW, LOAD_PLAYLIST_VIEW } from '../../reducers/views';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

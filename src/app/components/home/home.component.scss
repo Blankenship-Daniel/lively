@@ -1,3 +1,5 @@
+@import '../../../colors';
+
 .container {
 	display: flex;
 	position: fixed;
@@ -6,7 +8,7 @@
 	width: 100%;
 	height: 100%;
 	overflow-y: scroll;
-	background: linear-gradient(#0D47A1, #000);
+	background: linear-gradient($md-blue-900, $md-black);
 }
 
 .main {

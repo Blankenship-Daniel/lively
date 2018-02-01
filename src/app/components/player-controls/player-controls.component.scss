@@ -1,5 +1,9 @@
+@import '../../../colors';
+
 .main {
 	display: flex;
+	color: $md-grey-50;
+	background: $md-grey-900;
 	justify-content: space-between;
 	align-items: center;
 	position: fixed;
@@ -22,7 +26,13 @@
 		text-overflow: ellipsis;
 		padding-left: 50px;
 	}
+
+	.title {
+		color: $md-grey-50;
+	}
+
 	.artist {
+		color: $md-grey-400;
 		font-size: 12px;
 	}
 }
@@ -53,12 +63,22 @@
 }
 
 .progress-bar {
+	color: $md-grey-600;
 	display: flex;
 	font-size: 12px;
 
 	.time {
 		margin: 0px 10px;
 	}
+}
+
+.active {
+	color: $md-green-a200;
+}
+
+.disable-controls {
+	color: $md-grey-600;
+	pointer-events: none;
 }
 
 input[type=range] {

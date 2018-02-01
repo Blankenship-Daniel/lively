@@ -1,3 +1,5 @@
+@import '../../../colors';
+
 .add-music-container {
 	height: 90%;
 	display: flex;
@@ -20,8 +22,9 @@
 	cursor: pointer;
 	text-transform: uppercase;
 	letter-spacing: 5px;
+	color: $md-grey-300;
 
 	&:hover {
-		color: #fff;
+		color: $md-grey-50;
 	}
 }

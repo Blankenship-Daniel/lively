@@ -1,3 +1,5 @@
+@import '../../../colors';
+
 :host {
 	font-size: 13px;
 	display: block;
@@ -28,6 +30,7 @@
 .song {
 	padding: 10px;
 	display: flex;
+	color: $md-grey-100;
 
 	&:hover {
 		@extend .active;
@@ -40,6 +43,7 @@
 }
 
 .song-index {
+	color: $md-grey-200;
 	width: 30px;
 	font-size: 12px;
 	padding: 10px 15px;
@@ -54,6 +58,7 @@
 
 .song-duration,
 .song-info {
+	color: $md-grey-400;
 	font-size: 12px;
 }
 
@@ -77,6 +82,10 @@
 
 .drop-zone-active {
 	border-radius: 5px;
-	border: 3px dotted #69F0AE;
+	border: 3px dotted $md-green-a200;
 	height: 14px;
+}
+
+.fa.fa-play {
+	color: $md-green-a200;
 }

@@ -1,2 +1,6 @@
-<h1>{{ title }}</h1>
+<div class="title">
+	<h1>{{ title }}</h1>
+	<span (click)="deletePlaylist()" class="delete-playlist-btn">Delete Playlist <i class="fa fa-minus-circle"></i></span>
+	<hr>
+</div>
 <app-song-list [songs]="playableSongs | async" class="color-grey-800"></app-song-list>

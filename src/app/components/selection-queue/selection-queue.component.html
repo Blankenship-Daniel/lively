@@ -1,7 +1,6 @@
-<div [hidden]="hideSelectionQueue()" class="selection color-grey-400 bg-grey-900">
-	<div class="songs-list">{{ selectionDisplay }}
-		<div class="btn-wrapper">
-			<i (click)="combineSongs(songs)" class="fa fa-plus-circle combine-songs-btn"></i>
-		</div>
+<div [hidden]="hideSelectionQueue()" class="selection">
+	<div class="combine-songs-btn">
+		<button (click)="combineSongs(songs)">Combine Songs</button>
 	</div>
+	<div class="songs-list">{{ selectionDisplay }}</div>
 </div>

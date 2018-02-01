@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef, AfterViewI
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
 import { SongsService } from 'app/services/songs.service';
-
 import { PLAY_SONG } from 'app/reducers/player';
+
 @Component({
   selector: 'app-player-controls',
   templateUrl: './player-controls.component.html',
@@ -20,6 +20,7 @@ export class PlayerControlsComponent implements OnInit {
   private currSong: any;
   private isShuffled: boolean = false;
   private isPlaying: boolean = false;
+  private isRepeat: boolean = false;
 
   private currTime: number;
   private duration: number;
@@ -37,7 +38,7 @@ export class PlayerControlsComponent implements OnInit {
     this.audio = new Audio();
 
     this.currTime = 0;
-    this.duration = 0.1; // prevents NaN divide by zero error.
+    this.duration = 0.1;  // Prevents NaN divide by zero error.
     this.currImgSrc = '';
   }
 
@@ -48,7 +49,8 @@ export class PlayerControlsComponent implements OnInit {
       }
     });
     this.audio.addEventListener('ended', event => {
-      this.store.dispatch({ type: PLAY_SONG, payload: { song: this.songsService.getNextSong(this.currSong) }});
+      const nextSong = this.songsService.getNextSong(this.currSong);
+      this.store.dispatch({ type: PLAY_SONG, payload: { song: nextSong }});
     });
     this.audio.addEventListener('timeupdate', event => {
       this.currTime = this.audio.currentTime;
@@ -67,12 +69,13 @@ export class PlayerControlsComponent implements OnInit {
     });
   }
 
-  seekProgressBar(event) {
+  seekProgressBar(event: any) {
     this.audio.currentTime = event.target.valueAsNumber;
   }
 
   setSong(song: any) {
     this.currSong = song || this.currSong;
+    this.currSong.repeat = this.isRepeat;
 
     // Represents a single song.
     if (song && song.path && song.path !== '') {
@@ -89,7 +92,8 @@ export class PlayerControlsComponent implements OnInit {
   playNextSong() {
     if (this.currSong) {
       if (this.songsService.getSongs().length) {
-        this.store.dispatch({ type: PLAY_SONG, payload: { song: this.songsService.getNextSong(this.currSong) }});
+        const nextSong = this.songsService.getNextSong(this.currSong);
+        this.store.dispatch({ type: PLAY_SONG, payload: { song: nextSong }});
       }
       else {
         this.audio.src = '';
@@ -100,7 +104,8 @@ export class PlayerControlsComponent implements OnInit {
   playPrevSong() {
     if (this.currSong) {
       if (this.songsService.getSongs().length) {
-        // TODO
+        const prevSong = this.songsService.getPrevSong(this.currSong);
+        this.store.dispatch({ type: PLAY_SONG, payload: { song: prevSong }});
       }
       else {
         this.audio.src = '';
@@ -121,8 +126,16 @@ export class PlayerControlsComponent implements OnInit {
   }
 
   shuffleSongs() {
+    this.isRepeat = false;
+    this.currSong.repeat = false;
     this.isShuffled = !this.isShuffled;
     this.setActiveSongs(this.songs);
+  }
+
+  repeatSong() {
+    this.isShuffled = false;
+    this.isRepeat = !this.isRepeat;
+    this.currSong.repeat = !this.currSong.repeat;
   }
 
   setActiveSongs(songs: Array<any>) {

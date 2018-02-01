@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit, Input, AfterViewInit } from '@ang
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
 import { SongsService } from 'app/services/songs.service';
+import * as os from 'os';
+import * as storage from 'electron-json-storage';
 
 import { PLAY_SONG } from 'app/reducers/player';
 import { DELETE_SONG } from 'app/reducers/songs';
@@ -10,7 +12,8 @@ import { LOAD_SONGS } from 'app/reducers/songs';
 import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
 import { LOAD_PLAYABLE_SONGS } from 'app/reducers/playable';
 import { LOAD_LIBRARY_VIEW, LOAD_PLAYLIST_VIEW } from 'app/reducers/views';
-import { DELETE_SONG_FROM_PLAYLIST } from 'app/reducers/playlists';
+import { ADD_SONGS_TO_PLAYLIST, SET_SONGS_IN_PLAYLIST } from 'app/reducers/playlists';
+
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
@@ -28,11 +31,13 @@ export class SongComponent implements OnInit {
   private playlist: Observable<any>;
   private songs: Array<any>;
   private view: string;
-  private playlistId: number;
+  private playlistId: string;
   private active: boolean;
   private playing: boolean;
   private activeDropZoneAbove: boolean;
   private activeDropZoneBelow: boolean;
+
+  public deleted: boolean;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -49,9 +54,12 @@ export class SongComponent implements OnInit {
     this.playing = false;
     this.activeDropZoneAbove = false;
     this.activeDropZoneBelow = false;
+    this.playlistId = '';
+    this.deleted = false;
   }
 
   ngOnInit() {
+    storage.setDataPath(os.tmpdir());
     this.views.subscribe(view => {
       this.view = view.active;
       this.active = false;
@@ -99,7 +107,7 @@ export class SongComponent implements OnInit {
     this.activeDropZoneBelow = false;
   }
 
-  dropAbove(event) {
+  dropAbove(event: any) {
     event.preventDefault();
     this.activeDropZoneAbove = false;
     const draggedSongId: string = event.dataTransfer.getData('text');
@@ -112,11 +120,10 @@ export class SongComponent implements OnInit {
     const songs: Array<any> = this.songs.filter(s => s.id !== draggedSongId);           // Remove the dragged song from the songs array.
     songs.unshift(draggedSongArr[0]);                                                   // Add the dragged song to the front of the songs array.
 
-    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs });
-    this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
+    this.updateSongs(songs);
   }
 
-  dropBelow(event) {
+  dropBelow(event: any) {
     event.preventDefault();
     this.activeDropZoneBelow = false;
     const draggedSongId: string = event.dataTransfer.getData('text');
@@ -132,36 +139,46 @@ export class SongComponent implements OnInit {
     let pos: number = draggedSongPos > this.index ? this.index + 1 : this.index;
     songs.splice(pos, 0, draggedSongArr[0]);
 
-    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs });
-    this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
+    this.updateSongs(songs);
   }
 
-  deleteSong(song) {
+  updateSongs(songs: Array<any>) {
+    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs });
+    this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
+    this.store.dispatch({ type: SET_SONGS_IN_PLAYLIST, payload: { uuid: this.playlistId, songs: songs }});
+  }
+
+  deleteSong(song: any) {
+    this.deleted = true;
     const songs: Array<any> = this.songs.filter(s => s.id !== song.id);
 
     switch (this.view) {
       case LOAD_LIBRARY_VIEW:
         this.store.dispatch({ type: LOAD_SONGS, payload: songs });
+        storage.set('songs', { data: songs });
         break;
       case LOAD_PLAYLIST_VIEW:
-        this.store.dispatch({ type: DELETE_SONG_FROM_PLAYLIST, payload: { playlistId: this.playlistId, songs: songs } });
+        this.store.dispatch({ type: SET_SONGS_IN_PLAYLIST, payload: { uuid: this.playlistId, songs: songs }});
     }
 
     this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs });
     this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
   }
 
-  selectSong(song) {
+  selectSong(song: any) {
     this.active = !this.active;
+    if (this.view === LOAD_PLAYLIST_VIEW) {
+      song.playlistId = this.playlistId;
+    }
     this.store.dispatch({ type: SELECT_SONG, payload: song });
   }
 
-  playSong(song) {
+  playSong(song: any) {
     this.store.dispatch({ type: PLAY_SONG, payload: { song: song } });
     this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: this.songs });
   }
 
-  isDraggable() {
+  isDraggable(): boolean {
     return (this.view === LOAD_LIBRARY_VIEW ? false : true);
   }
 }

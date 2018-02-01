@@ -40,6 +40,7 @@ export class PlaylistLinkComponent implements OnInit {
   }
 
   loadPlaylist() {
+    this.store.dispatch({ type: CLEAR_SELECTIONS });
     this.store.dispatch({ type: LOAD_PLAYLIST_VIEW, payload: { active: LOAD_PLAYLIST_VIEW } });
     this.store.dispatch({ type: LOAD_PLAYLIST_DATA, payload: this.playlist });
     this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: this.playlist.value.songs });

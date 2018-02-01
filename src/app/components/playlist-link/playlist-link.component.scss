@@ -1,4 +1,8 @@
-:host, .add-songs-link {
+@import '../../../colors';
+
+:host,
+.add-songs-link {
+	color: $md-grey-50;
 	cursor: pointer;
 }
 
@@ -9,5 +13,5 @@
 	margin-top: 5px;
 	padding-top: 3px;
 	text-transform: uppercase;
-	border-top: 1px solid #424242;
+	border-top: 1px solid $md-grey-800;
 }

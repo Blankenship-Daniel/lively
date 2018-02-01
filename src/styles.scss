@@ -1,4 +1,4 @@
-@import '../node_modules/material-colors/dist/colors.css';
+@import 'colors';
 
 html, body {
   box-sizing: border-box;
@@ -11,7 +11,7 @@ html, body {
 hr {
   border: 0;
   height: 1px;
-  background: #424242;
+  background: $md-grey-800;
 }
 
 ul {

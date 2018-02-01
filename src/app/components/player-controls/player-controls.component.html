@@ -1,12 +1,12 @@
-<div class="main color-grey-50 bg-grey-900">
+<div class="main">
   <div class="current-song">
     <div *ngIf="currSong">
       <div>
         <img [src]="currImgSrc" alt="">
       </div>
       <div>
-        <p class="title color-grey-50">{{ currSong.title }}</p>
-        <p class="artist color-grey-400">
+        <p class="title">{{ currSong.title }}</p>
+        <p class="artist">
           <span *ngIf="currSong.artist">{{ currSong.artist }}</span>
           <span *ngIf="!currSong.artist">&nbsp;</span>
         </p>
@@ -15,9 +15,9 @@
   </div>
   <div class="controls-box">
     <div class="controls-container">
-      <div class="controls">
+      <div [ngClass]="{'disable-controls': !currSong}" class="controls">
         <span>
-          <i (click)="shuffleSongs()" [ngClass]="{'color-green-a200': isShuffled}" class="fa fa-random"></i>
+          <i (click)="shuffleSongs()" [ngClass]="{'active': isShuffled}" class="fa fa-random"></i>
         </span>
         <span>
           <i (click)="playPrevSong()" class="fa fa-step-backward"></i>
@@ -33,11 +33,11 @@
           <i (click)="playNextSong()" class="fa fa-step-forward"></i>
         </span>
         <span>
-          <i class="fa fa-repeat"></i>
+          <i (click)="repeatSong()" [ngClass]="{'active': isRepeat}" class="fa fa-repeat"></i>
         </span>
       </div>
     </div>
-    <div class="progress-bar color-grey-600">
+    <div class="progress-bar">
       <span class="time">{{ songsService.formatTime(currTime) }}</span>
       <input (input)="seekProgressBar($event)" type="range" [value]="currTime" [max]="duration">
       <span class="time">{{ songsService.formatTime(duration) }}</span>

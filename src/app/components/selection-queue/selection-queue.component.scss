@@ -1,32 +1,39 @@
+@import '../../../colors';
+
 .selection {
+	padding: 15px;
+	color: $md-grey-100;
+	background: rgba(33, 33, 33, .9);
 	box-sizing: border-box;
 	position: fixed;
 	bottom: 100px;
 	left: 0;
 	width: 100%;
-	min-height: 20px;
-	padding: 15px 50px 15px 15px;
+	min-height: 50px;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	border-bottom: 1px solid $md-grey-800;
+}
+
+.combine-songs-btn {
+	width: 150px;
+
+	button {
+		border: none;
+		color: $md-grey-900;
+		background-color: $md-blue-a200;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		border-radius: 5px;
+		cursor: pointer;
+	}
 }
 
 .songs-list {
-	display: block;
-	position: relative;
-	height: 100%;
-}
-
-.btn-wrapper {
-	display: flex;
-	position: absolute;
-	top: 0;
-	right: -50px;
-	width: 50px;
-	height: 100%;
-	align-items: center;
-	justify-content: center;
+	line-height: 30px;
+	padding: 10px 0px;
 }
 
 .selection,
 .combine-songs-btn {
-	font-size: 12px;
+	font-size: 16px;
 }
