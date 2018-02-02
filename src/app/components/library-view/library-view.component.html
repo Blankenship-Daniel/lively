@@ -7,4 +7,10 @@
 		<img width="50" src="../../../assets/bouncing.gif" alt="Loading">
 	</div>
 </div>
-<app-song-list [songs]="songs | async" class="color-grey-50"></app-song-list>
+<div class="library">
+	<span class="secondary-add-music-btn" (click)="addMusicInput.click()">
+		Add Songs
+		<i class="fa fa-plus"></i>
+	</span>
+	<app-song-list [songs]="songs | async" class="color-grey-50"></app-song-list>
+</div>

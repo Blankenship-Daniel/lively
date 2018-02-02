@@ -48,6 +48,7 @@ export class LibraryViewComponent implements OnInit {
     });
 
     this.songs.subscribe(songs => {
+      storage.set('songs', { data: songs });
       if (songs.length === 0) {
         this.songsLoaded = false;
       }
@@ -89,8 +90,6 @@ export class LibraryViewComponent implements OnInit {
     this.store.dispatch({ type: ADD_SONGS, payload: songsArray });
     this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songsArray });
     this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songsArray });
-
-    storage.set('songs', { data: songsArray });
 
     this.songsLoading = false;
     this.songsLoaded = true;

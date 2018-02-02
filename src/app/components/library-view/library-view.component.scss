@@ -28,3 +28,23 @@
 		color: $md-grey-50;
 	}
 }
+
+.secondary-add-music-btn {
+	font-size: 12px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	cursor: pointer;
+	color: $md-grey-300;
+	border: 1px dotted $md-grey-300;
+	border-radius: 5px;
+	padding: 10px;
+
+	&:hover {
+		color: $md-grey-50;
+		border-bottom: 2px dotted $md-grey-50;
+	}
+}
+
+.library {
+	margin-top: 20px;
+}
