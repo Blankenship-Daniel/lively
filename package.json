@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "2.0.0",
-  "description": "Angular 5 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "Lively",
+  "version": "1.0.0",
+  "description": "An Angular Electron music app built for live music fans",
+  "homepage": "https://github.com/Blankenship-Daniel/lively",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Daniel Blankenship",
+    "email": "blankenshipdanielj@gmail.com"
   },
   "keywords": [
     "angular",

@@ -44,6 +44,11 @@ export class PlayerControlsComponent implements OnInit {
 
   ngAfterViewInit() {
     this.player.subscribe(songObj => {
+      if (!songObj.song) {
+        this.audio.src = '';
+        this.currSong = null;
+        return;
+      }
       if (Object.keys(songObj.song).length > 0) {
         this.setSong(songObj.song);
       }

@@ -73,6 +73,10 @@ export class SongComponent implements OnInit {
       this.songs = songs;
     });
     this.player.subscribe(songObj => {
+      if (!songObj.song) {
+        this.playing = false;
+        return;
+      }
       if (this.song.id === songObj.song.id) {
         this.playing = true;
       }
