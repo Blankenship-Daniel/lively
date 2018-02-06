@@ -71,6 +71,12 @@ export class PlayerControlsComponent implements OnInit {
     this.activeSongs.subscribe(songs => {
       this.songs = songs;
       this.setActiveSongs(songs);
+
+      // Handles the case in which the currently playing song gets deleted.
+      if (this.currSong && this.songs.indexOf(this.currSong) === -1) {
+        this.audio.src = '';
+        this.currSong = null;
+      }
     });
   }
 
