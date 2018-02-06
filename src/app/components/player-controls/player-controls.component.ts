@@ -45,8 +45,7 @@ export class PlayerControlsComponent implements OnInit {
   ngAfterViewInit() {
     this.player.subscribe(songObj => {
       if (!songObj.song) {
-        this.audio.src = '';
-        this.currSong = null;
+        this.stopSong();
         return;
       }
       if (Object.keys(songObj.song).length > 0) {
@@ -74,8 +73,7 @@ export class PlayerControlsComponent implements OnInit {
 
       // Handles the case in which the currently playing song gets deleted.
       if (this.currSong && this.songs.indexOf(this.currSong) === -1) {
-        this.audio.src = '';
-        this.currSong = null;
+        this.stopSong();
       }
     });
   }
@@ -156,5 +154,12 @@ export class PlayerControlsComponent implements OnInit {
     else {
       this.songsService.setSongs(songs);
     }
+  }
+
+  private stopSong() {
+    this.audio.src = '';
+    this.currSong = null;
+    this.isRepeat = false;
+    this.isShuffled = false;
   }
 }

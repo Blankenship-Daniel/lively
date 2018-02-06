@@ -1,32 +1,7 @@
 @import '../../../colors';
 
-.add-music-container {
-	height: 90%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 #addMusicInput {
 	display: none;
-}
-
-#addMusicBtn {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 225px;
-	height: 60px;
-	border: 2px dotted;
-	border-radius: 5px;
-	cursor: pointer;
-	text-transform: uppercase;
-	letter-spacing: 5px;
-	color: $md-grey-300;
-
-	&:hover {
-		color: $md-grey-50;
-	}
 }
 
 .secondary-add-music-btn {
@@ -47,4 +22,9 @@
 
 .library {
 	margin-top: 20px;
+}
+
+.loading-gif {
+	color: $md-grey-50;
+	margin-left: 20px;
 }

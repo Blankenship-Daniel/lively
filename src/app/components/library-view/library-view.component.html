@@ -1,16 +1,12 @@
 <input id="addMusicInput" #addMusicInput (change)="onFileChange($event)" type="file" accept=".mp3" multiple>
-<div *ngIf="!songsLoaded" class="add-music-container">
-	<div *ngIf="!songsLoading" id="addMusicBtn" (click)="addMusicInput.click()">
-		Add Songs
-	</div>
-	<div *ngIf="songsLoading">
-		<img width="50" src="../../../assets/bouncing.gif" alt="Loading">
-	</div>
-</div>
 <div class="library">
 	<span class="secondary-add-music-btn" (click)="addMusicInput.click()">
 		Add Songs
 		<i class="fa fa-plus"></i>
 	</span>
+	<span *ngIf="songsLoading" class="loading-gif">
+		<i class="fa fa-spinner fa-spin"></i>
+	</span>
 	<app-song-list [songs]="songs | async" class="color-grey-50"></app-song-list>
 </div>
+

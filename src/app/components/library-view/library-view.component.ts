@@ -49,6 +49,10 @@ export class LibraryViewComponent implements OnInit {
 
     this.songs.subscribe(songs => {
       storage.set('songs', { data: songs });
+
+      this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
+      this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs });
+
       if (songs.length === 0) {
         this.songsLoaded = false;
       }
@@ -78,7 +82,7 @@ export class LibraryViewComponent implements OnInit {
 
       const path: string      = filesArray[i].path;
       const duration: number  = await this.getSongDuration(path);
-      let songMetadata: any   = await id3Parser.parse(filesArray[i]);
+      const songMetadata: any = await id3Parser.parse(filesArray[i]);
       songMetadata.duration   = duration;
       songMetadata.path       = path;
       songMetadata.id         = UUID.UUID();
@@ -91,11 +95,13 @@ export class LibraryViewComponent implements OnInit {
       songsArray.push(songMetadata);
     }
 
-    this.store.dispatch({ type: ADD_SONGS, payload: songsArray });
-    this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songsArray });
-    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songsArray });
-
     this.songsLoading = false;
+    if (!songsArray.length) {
+      this.songsLoaded = false;
+      return;
+    }
+
+    this.store.dispatch({ type: ADD_SONGS, payload: songsArray });
     this.songsLoaded = true;
   }
 }
