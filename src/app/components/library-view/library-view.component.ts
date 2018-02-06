@@ -72,6 +72,10 @@ export class LibraryViewComponent implements OnInit {
     let filesArray: Array<File> = Array.from(files);
 
     for (let i = 0; i < filesArray.length; i++) {
+      if (filesArray[i].type !== 'audio/mp3') { // Only accept mp3 files.
+        continue;
+      }
+
       const path: string      = filesArray[i].path;
       const duration: number  = await this.getSongDuration(path);
       let songMetadata: any   = await id3Parser.parse(filesArray[i]);

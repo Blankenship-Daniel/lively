@@ -1,4 +1,4 @@
-<input id="addMusicInput" #addMusicInput (change)="onFileChange($event)" type="file" multiple>
+<input id="addMusicInput" #addMusicInput (change)="onFileChange($event)" type="file" accept=".mp3" multiple>
 <div *ngIf="!songsLoaded" class="add-music-container">
 	<div *ngIf="!songsLoading" id="addMusicBtn" (click)="addMusicInput.click()">
 		Add Songs
