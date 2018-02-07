@@ -6,7 +6,7 @@ import * as os from 'os';
 import * as storage from 'electron-json-storage';
 
 import { PLAY_SONG } from 'app/reducers/player';
-import { DELETE_SONG } from 'app/reducers/songs';
+import { DELETE_SONG } from 'app/reducers/delete';
 import { SELECT_SONG } from 'app/reducers/selection';
 import { LOAD_SONGS } from 'app/reducers/songs';
 import { LOAD_ACTIVE_SONGS } from 'app/reducers/active';
@@ -24,12 +24,12 @@ export class SongComponent implements OnInit {
   @Input() index;
   @Input() song;
 
-  private playableSongs: Observable<any>;
+  private playable: Observable<any>;
   private views: Observable<any>;
   private selections: Observable<any>;
   private player: Observable<any>;
   private playlist: Observable<any>;
-  private songs: Array<any>;
+  private playableSongs: Array<any>;
   private view: string;
   private playlistId: string;
   private active: boolean;
@@ -45,11 +45,11 @@ export class SongComponent implements OnInit {
     private songsService: SongsService
   ) {
     this.views = store.select('views');
-    this.playableSongs = store.select('playable');
+    this.playable = store.select('playable');
     this.selections = store.select('selection');
     this.player = store.select('player');
     this.playlist = store.select('playlist');
-    this.songs = [];
+    this.playableSongs = [];
     this.active = false;
     this.playing = false;
     this.activeDropZoneAbove = false;
@@ -69,8 +69,8 @@ export class SongComponent implements OnInit {
         this.active = false;
       }
     });
-    this.playableSongs.subscribe(songs => {
-      this.songs = songs;
+    this.playable.subscribe(songs => {
+      this.playableSongs = songs;
     });
     this.player.subscribe(song => {
       if (!song) {
@@ -120,8 +120,8 @@ export class SongComponent implements OnInit {
       return false;
     }
 
-    const draggedSongArr: Array<any>  = this.songs.filter(s => s.id === draggedSongId);
-    const songs: Array<any>           = this.songs.filter(s => s.id !== draggedSongId);
+    const draggedSongArr: Array<any>  = this.playableSongs.filter(s => s.id === draggedSongId);
+    const songs: Array<any>           = this.playableSongs.filter(s => s.id !== draggedSongId);
     songs.unshift(draggedSongArr[0]);
 
     this.updateSongs(songs);
@@ -136,9 +136,9 @@ export class SongComponent implements OnInit {
       return false;
     }
 
-    const draggedSongArr: Array<any>  = this.songs.filter(s => s.id === draggedSongId);
-    const songs: Array<any>           = this.songs.filter(s => s.id !== draggedSongId);
-    const draggedSongPos: number      = this.songs.findIndex(s => s.id === draggedSongArr[0].id);
+    const draggedSongArr: Array<any>  = this.playableSongs.filter(s => s.id === draggedSongId);
+    const songs: Array<any>           = this.playableSongs.filter(s => s.id !== draggedSongId);
+    const draggedSongPos: number      = this.playableSongs.findIndex(s => s.id === draggedSongArr[0].id);
 
     const pos: number = draggedSongPos > this.index ? this.index + 1 : this.index;
     songs.splice(pos, 0, draggedSongArr[0]);
@@ -154,19 +154,7 @@ export class SongComponent implements OnInit {
 
   deleteSong(song: any) {
     this.deleted = true;
-    const songs: Array<any> = this.songs.filter(s => s.id !== song.id);
-
-    switch (this.view) {
-      case LOAD_LIBRARY_VIEW:
-        this.store.dispatch({ type: LOAD_SONGS, payload: songs });
-        storage.set('songs', { data: songs });
-        break;
-      case LOAD_PLAYLIST_VIEW:
-        this.store.dispatch({ type: SET_SONGS_IN_PLAYLIST, payload: { uuid: this.playlistId, songs: songs }});
-    }
-
-    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: songs });
-    this.store.dispatch({ type: LOAD_PLAYABLE_SONGS, payload: songs });
+    this.store.dispatch({ type: DELETE_SONG, payload: song });
   }
 
   selectSong(song: any) {
@@ -179,7 +167,7 @@ export class SongComponent implements OnInit {
 
   playSong(song: any) {
     this.store.dispatch({ type: PLAY_SONG, payload: song });
-    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: this.songs });
+    this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: this.playableSongs });
   }
 
   isDraggable(): boolean {

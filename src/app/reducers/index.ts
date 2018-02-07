@@ -6,6 +6,7 @@ import { selectionReducer } from './selection';
 import { songsReducer } from './songs';
 import { viewsReducer } from './views';
 import { activeReducer } from './active';
+import { deleteReducer } from './delete';
 
 export const reducers = {
 	player: playerReducer,
@@ -15,5 +16,6 @@ export const reducers = {
 	selection: selectionReducer,
 	songs: songsReducer,
 	views: viewsReducer,
-	active: activeReducer
+	active: activeReducer,
+	delete: deleteReducer
 };

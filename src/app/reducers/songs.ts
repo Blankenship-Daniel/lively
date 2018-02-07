@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 
 export const ADD_SONGS = 'ADD_SONGS';
 export const LOAD_SONGS = 'LOAD_SONGS';
-export const DELETE_SONG = 'DELETE_SONG';
 
 export function songsReducer(state = [], action) {
 	switch (action.type) {
