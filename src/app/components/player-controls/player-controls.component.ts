@@ -25,7 +25,6 @@ export class PlayerControlsComponent implements OnInit {
   private currTime: number;
   private duration: number;
   private range: number;
-  private currImgSrc: string;
   private playPromise: any;
 
   constructor(
@@ -40,7 +39,6 @@ export class PlayerControlsComponent implements OnInit {
 
     this.currTime = 0;
     this.duration = 0.1;  // Prevents NaN divide by zero error.
-    this.currImgSrc = '';
     this.currSong = null;
   }
 

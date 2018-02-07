@@ -20,11 +20,9 @@
 }
 
 .current-song {
+
 	.title, .artist {
-		overflow-x: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		padding-left: 50px;
+		padding-left: 20px;
 	}
 
 	.title {
@@ -79,6 +77,32 @@
 .disable-controls {
 	color: $md-grey-600;
 	pointer-events: none;
+}
+
+.song-info-container {
+	display: flex;
+
+	.song-info {
+		flex: 1;
+		min-width: 0;
+
+		p {
+			white-space: nowrap;
+			overflow-x: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+}
+
+.album-art-container {
+	width: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.album-art {
+	width: 65px;
 }
 
 input[type=range] {

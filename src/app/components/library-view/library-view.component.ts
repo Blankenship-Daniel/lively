@@ -90,6 +90,7 @@ export class LibraryViewComponent implements OnInit {
 
       if (songMetadata.image) {
         songMetadata.image.data = Array.from(songMetadata.image.data);
+        songMetadata.image.dataUrl = this.createDataUrl(songMetadata.image);
       }
 
       songsArray.push(songMetadata);
@@ -103,5 +104,13 @@ export class LibraryViewComponent implements OnInit {
 
     this.store.dispatch({ type: ADD_SONGS, payload: songsArray });
     this.songsLoaded = true;
+  }
+
+  private createDataUrl(image: any) : string {
+      let base64String = "";
+      for (let i = 0; i < image.data.length; i++) {
+          base64String += String.fromCharCode(image.data[i]);
+      }
+      return `data:${image.mime};base64,${window.btoa(base64String)}`;
   }
 }

@@ -1,15 +1,17 @@
 <div class="main">
   <div class="current-song">
     <div *ngIf="currSong">
-      <div>
-        <img [src]="currImgSrc" alt="">
-      </div>
-      <div>
-        <p class="title">{{ currSong.title }}</p>
-        <p class="artist">
-          <span *ngIf="currSong.artist">{{ currSong.artist }}</span>
-          <span *ngIf="!currSong.artist">&nbsp;</span>
-        </p>
+      <div class="song-info-container">
+        <div *ngIf="currSong.image" class="album-art-container">
+          <img class="album-art" [src]="currSong.image.dataUrl" alt="">
+        </div>
+        <div class="song-info">
+          <p class="title">{{ currSong.title }}</p>
+          <p class="artist">
+            <span *ngIf="currSong.artist">{{ currSong.artist }}</span>
+            <span *ngIf="!currSong.artist">&nbsp;</span>
+          </p>
+        </div>
       </div>
     </div>
   </div>

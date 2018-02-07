@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 
+const ONE_HOUR: number = 3600;
+
 @Injectable()
 export class SongsService {
 
@@ -77,6 +79,7 @@ export class SongsService {
     let flattenedSongs = this.flattenSongs(songs);
     return {
       id: UUID.UUID(),
+      album: this.getAlbum(flattenedSongs),
       artist: this.getArtists(flattenedSongs),
       currSongIndex: 0,
       duration: this.getTotalSongDuration(flattenedSongs),
@@ -84,6 +87,11 @@ export class SongsService {
       title: this.getSongTitles(flattenedSongs),
       year: (new Date()).getFullYear()
     };
+  }
+
+  getAlbum(songs: Array<any>): string {
+    const same = songs.every((el, idx, arr) => el.album === arr[0].album);
+    return same ? songs[0].album : '';
   }
 
   getTotalSongDuration(songs: Array<any>): number {
@@ -114,8 +122,9 @@ export class SongsService {
   }
 
   formatTime(seconds): string {
-    let date: Date = new Date(null);
+    const date: Date = new Date(null);
     date.setSeconds(seconds);
-    return date.toISOString().substr(14, 5);
+    const iso: string = date.toISOString();
+    return seconds > ONE_HOUR ? iso.substr(11, 8) : iso.substr(14, 5);
   }
 }
