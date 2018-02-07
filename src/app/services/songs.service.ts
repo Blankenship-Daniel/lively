@@ -31,7 +31,7 @@ export class SongsService {
     }
 
     // Single songs
-    const i = this.songs.indexOf(song);
+    const i = this.songs.findIndex(s => s.id === song.id);
     if (i === 0) { // Return to the end of the songs list if we are at the first song
       return this.songs[this.songs.length - 1];
     }
@@ -56,7 +56,7 @@ export class SongsService {
 
     // Move onto the next song in the list. Cycle back to the beginning
     //  when the end of the list is reached
-    const nextIndex = (this.songs.indexOf(song) + 1) % this.songs.length;
+    const nextIndex = (this.songs.findIndex(s => s.id === song.id) + 1) % this.songs.length;
     return this.songs[nextIndex];
   }
 

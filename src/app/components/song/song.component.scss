@@ -86,6 +86,11 @@
 	height: 14px;
 }
 
-.fa.fa-play {
-	color: $md-green-a200;
+.playing {
+	.song-index,
+	.song-duration,
+	.song-info,
+	.song-title {
+		color: $md-green-a200;
+	}
 }

@@ -72,12 +72,12 @@ export class SongComponent implements OnInit {
     this.playableSongs.subscribe(songs => {
       this.songs = songs;
     });
-    this.player.subscribe(songObj => {
-      if (!songObj.song) {
+    this.player.subscribe(song => {
+      if (!song) {
         this.playing = false;
         return;
       }
-      if (this.song.id === songObj.song.id) {
+      if (this.song.id === song.id) {
         this.playing = true;
       }
       else {
@@ -120,9 +120,9 @@ export class SongComponent implements OnInit {
       return false;
     }
 
-    const draggedSongArr: Array<any> = this.songs.filter(s => s.id === draggedSongId);  // Retrieve the dragged song by id.
-    const songs: Array<any> = this.songs.filter(s => s.id !== draggedSongId);           // Remove the dragged song from the songs array.
-    songs.unshift(draggedSongArr[0]);                                                   // Add the dragged song to the front of the songs array.
+    const draggedSongArr: Array<any>  = this.songs.filter(s => s.id === draggedSongId);
+    const songs: Array<any>           = this.songs.filter(s => s.id !== draggedSongId);
+    songs.unshift(draggedSongArr[0]);
 
     this.updateSongs(songs);
   }
@@ -136,11 +136,11 @@ export class SongComponent implements OnInit {
       return false;
     }
 
-    const draggedSongArr: Array<any> = this.songs.filter(s => s.id === draggedSongId);  // Retrieve the dragged song by id.
-    const songs: Array<any> = this.songs.filter(s => s.id !== draggedSongId);           // Remove the dragged song from the songs array.
-    const draggedSongPos: number = this.songs.indexOf(draggedSongArr[0]);               // Retrieve the current position of the dragged song in the songs array.
+    const draggedSongArr: Array<any>  = this.songs.filter(s => s.id === draggedSongId);
+    const songs: Array<any>           = this.songs.filter(s => s.id !== draggedSongId);
+    const draggedSongPos: number      = this.songs.findIndex(s => s.id === draggedSongArr[0].id);
 
-    let pos: number = draggedSongPos > this.index ? this.index + 1 : this.index;
+    const pos: number = draggedSongPos > this.index ? this.index + 1 : this.index;
     songs.splice(pos, 0, draggedSongArr[0]);
 
     this.updateSongs(songs);
@@ -178,7 +178,7 @@ export class SongComponent implements OnInit {
   }
 
   playSong(song: any) {
-    this.store.dispatch({ type: PLAY_SONG, payload: { song: song } });
+    this.store.dispatch({ type: PLAY_SONG, payload: song });
     this.store.dispatch({ type: LOAD_ACTIVE_SONGS, payload: this.songs });
   }
 

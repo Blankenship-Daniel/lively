@@ -1,5 +1,10 @@
 <div>
-  <div (click)="loadPlaylist()">{{ playlist.value.title }}</div>
+  <div class="playlist-name" (click)="loadPlaylist()">
+    <!-- <span class="now-playing">
+      <i class="fa fa-volume-up"></i>
+    </span> -->
+    {{ playlist.value.title }}
+  </div>
   <div class="add-songs-link" [ngClass]="{'hidden': !songsAreSelected}" (click)="addSongsToPlaylist(selectedSongsArr)">
     Add To Playlist
     <i class="fa fa-plus"></i>

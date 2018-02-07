@@ -26,6 +26,7 @@ export class PlayerControlsComponent implements OnInit {
   private duration: number;
   private range: number;
   private currImgSrc: string;
+  private playPromise: any;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -40,21 +41,21 @@ export class PlayerControlsComponent implements OnInit {
     this.currTime = 0;
     this.duration = 0.1;  // Prevents NaN divide by zero error.
     this.currImgSrc = '';
+    this.currSong = null;
   }
 
   ngAfterViewInit() {
-    this.player.subscribe(songObj => {
-      if (!songObj.song) {
+    this.player.subscribe(song => {
+      if (!song) {
         this.stopSong();
-        return;
       }
-      if (Object.keys(songObj.song).length > 0) {
-        this.setSong(songObj.song);
+      else {
+        this.setSong(song);
       }
     });
     this.audio.addEventListener('ended', event => {
       const nextSong = this.songsService.getNextSong(this.currSong);
-      this.store.dispatch({ type: PLAY_SONG, payload: { song: nextSong }});
+      this.store.dispatch({ type: PLAY_SONG, payload: nextSong });
     });
     this.audio.addEventListener('timeupdate', event => {
       this.currTime = this.audio.currentTime;
@@ -72,7 +73,10 @@ export class PlayerControlsComponent implements OnInit {
       this.setActiveSongs(songs);
 
       // Handles the case in which the currently playing song gets deleted.
-      if (this.currSong && this.songs.indexOf(this.currSong) === -1) {
+      if (
+        this.currSong &&
+        this.songs.findIndex(s => s.id === this.currSong.id) === -1
+      ) {
         this.stopSong();
       }
     });
@@ -102,7 +106,7 @@ export class PlayerControlsComponent implements OnInit {
     if (this.currSong) {
       if (this.songsService.getSongs().length) {
         const nextSong = this.songsService.getNextSong(this.currSong);
-        this.store.dispatch({ type: PLAY_SONG, payload: { song: nextSong }});
+        this.store.dispatch({ type: PLAY_SONG, payload: nextSong });
       }
       else {
         this.audio.src = '';
@@ -114,7 +118,7 @@ export class PlayerControlsComponent implements OnInit {
     if (this.currSong) {
       if (this.songsService.getSongs().length) {
         const prevSong = this.songsService.getPrevSong(this.currSong);
-        this.store.dispatch({ type: PLAY_SONG, payload: { song: prevSong }});
+        this.store.dispatch({ type: PLAY_SONG, payload: prevSong });
       }
       else {
         this.audio.src = '';
@@ -125,7 +129,7 @@ export class PlayerControlsComponent implements OnInit {
   playSong() {
     if (this.audio.src !== '') {
       this.isPlaying = true;
-      this.audio.play();
+      this.playPromise = this.audio.play();
     }
   }
 
@@ -157,9 +161,9 @@ export class PlayerControlsComponent implements OnInit {
   }
 
   private stopSong() {
-    this.audio.src = '';
-    this.currSong = null;
-    this.isRepeat = false;
-    this.isShuffled = false;
+      this.audio.src = '';
+      this.currSong = null;
+      this.isRepeat = false;
+      this.isShuffled = false;
   }
 }

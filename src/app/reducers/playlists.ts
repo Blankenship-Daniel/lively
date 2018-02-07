@@ -20,6 +20,7 @@ export function playlistsReducer(state = {}, action) {
 			return { ...action.payload };
 		case ADD_SONGS_TO_PLAYLIST:
 			let songs = [...state[action.payload.uuid].songs, ...action.payload.songs];
+			songs.forEach(song => song.playlistId = action.payload.uuid);
 			state[action.payload.uuid].songs = Array.from(new Set(songs)); // Don't allow duplicate songs in playlists.
 			return { ...state };
 		case SET_SONGS_IN_PLAYLIST:

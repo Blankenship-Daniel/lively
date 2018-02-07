@@ -15,3 +15,14 @@
 	text-transform: uppercase;
 	border-top: 1px solid $md-grey-800;
 }
+
+.playlist-name {
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+}
+
+.now-playing {
+	color: $md-green-a200;
+	margin-right: 10px;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
+import { UUID } from 'angular2-uuid';
 
 import { ADD_SONGS_TO_PLAYLIST } from 'app/reducers/playlists';
 import { LOAD_PLAYLIST_DATA } from 'app/reducers/playlist';
@@ -47,11 +48,18 @@ export class PlaylistLinkComponent implements OnInit {
   }
 
   addSongsToPlaylist(songs: Array<any>) {
+    // Give each new song being added to the playlist a new ID.
+    // This will ensure that the song in the playlist and the song
+    // in the library are referencing two different song references.
+    const newSongs: Array<any> = JSON.parse(JSON.stringify(songs));
+    newSongs.forEach(s => s.id = UUID.UUID());
+
     this.store.dispatch({ type: CLEAR_SELECTIONS });
     this.store.dispatch({
-      type: ADD_SONGS_TO_PLAYLIST, payload: {
+      type: ADD_SONGS_TO_PLAYLIST,
+      payload: {
         uuid: this.playlist.key,
-        songs: songs
+        songs: newSongs
       }
     });
   }

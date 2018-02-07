@@ -4,13 +4,10 @@
     (dragleave)="dragLeaveAbove($event)" (drop)="dropAbove($event)"></div>
 
   <div [id]="song.id" [draggable]="isDraggable()" class="song" (click)="selectSong(song)" (dblclick)="playSong(song)"
-    (dragstart)="dragStart($event)" [ngClass]="{'active': active}">
+    (dragstart)="dragStart($event)" [ngClass]="{'active': active, 'playing': playing}">
 
     <div class="song-index">
-      <span *ngIf="!playing">{{ index + 1 }}.</span>
-      <span *ngIf="playing">
-        <i class="fa fa-play"></i>
-      </span>
+      <span>{{ index + 1 }}.</span>
     </div>
     <div class="song-info-container">
       <div class="song-title">
