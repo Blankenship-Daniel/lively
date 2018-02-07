@@ -36,7 +36,6 @@ export class PlayerControlsComponent implements OnInit {
   private currTime: number;
   private duration: number;
   private range: number;
-  private playPromise: any;
   private view: string;
   private playlistId: string;
 
